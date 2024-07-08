@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface UserRepo extends JpaRepository<User, Integer> {
-    User findUserByUserNameEquals(String username);
+    User findUserByUserNameEqualsIgnoreCase(String username);
+    Boolean existsByUserNameEqualsIgnoreCase(String username);
 }

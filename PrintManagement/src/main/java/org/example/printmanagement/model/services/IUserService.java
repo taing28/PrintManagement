@@ -1,5 +1,8 @@
 package org.example.printmanagement.model.services;
 
-public interface IUserService {
+import org.example.printmanagement.model.dtos.request.SignUpRequest;
+import org.example.printmanagement.model.entities.User;
 
+public interface IUserService {
+    User createUser(SignUpRequest request) throws Exception;
 }
