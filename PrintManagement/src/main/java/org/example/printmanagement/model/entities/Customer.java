@@ -34,13 +34,13 @@ public class Customer {
     @JsonIgnore
     private List<CustomerFeedback> customerFeedbackList;
 
-    @OneToMany(mappedBy = "", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "customerProject", fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private List<> ;
+    private List<Project> projectList;
 
-    @OneToMany(mappedBy = "", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "customerDelivery", fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private List<> ;
+    private List<Delivery> deliveryList;
 }

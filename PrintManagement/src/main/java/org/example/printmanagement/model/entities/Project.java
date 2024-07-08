@@ -33,27 +33,27 @@ public class Project {
     }
 
     @ManyToOne
-    @JoinColumn(name = "", foreignKey = @ForeignKey(name = ""))
+    @JoinColumn(name = "employeeId", foreignKey = @ForeignKey(name = "fk_project_employee"))
     @JsonIgnore
-    private ;
+    private User employeeProject;
 
     @ManyToOne
-    @JoinColumn(name = "", foreignKey = @ForeignKey(name = ""))
+    @JoinColumn(name = "customerId", foreignKey = @ForeignKey(name = "fk_project_customer"))
     @JsonIgnore
-    private ;
+    private Customer customerProject;
 
-    @OneToMany(mappedBy = "", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "projectFeedback", fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private List<> ;
+    private List<CustomerFeedback> customerFeedbackList;
 
-    @OneToMany(mappedBy = "", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "projectDesign", fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private List<> ;
+    private List<Design> designList;
 
-    @OneToMany(mappedBy = "", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "projectDelivery", fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private List<> ;
+    private List<Delivery> deliveryList;
 }

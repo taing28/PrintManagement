@@ -75,8 +75,8 @@ public class User {
     @JsonIgnore
     private List<CustomerFeedback> customerFeedbackList;
 
-    @OneToMany(mappedBy = "", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "employeeProject", fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private List<> ;
+    private List<Project> projectList;
 }
