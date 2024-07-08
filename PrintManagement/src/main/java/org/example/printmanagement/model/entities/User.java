@@ -50,30 +50,30 @@ public class User {
     @JsonIgnore
     private List<Bill> billList;
 
-    @OneToMany(mappedBy = "", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userPermiss", fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private List<> ;
+    private List<Permission> permissionList;
 
-    @OneToMany(mappedBy = "", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userKeyPerformance", fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private List<> ;
+    private List<KeyPerformanceIndicators> keyPerformanceIndicatorsList;
 
-    @OneToMany(mappedBy = "", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "employeeCoupon", fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private List<> ;
+    private List<ImportCoupon> importCouponList;
 
-    @OneToMany(mappedBy = "", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "designer", fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private List<> ;
+    private List<Design> designList;
 
-    @OneToMany(mappedBy = "", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "userFeedback", fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private List<> ;
+    private List<CustomerFeedback> customerFeedbackList;
 
     @OneToMany(mappedBy = "", fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
