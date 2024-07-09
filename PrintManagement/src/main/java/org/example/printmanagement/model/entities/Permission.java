@@ -28,4 +28,11 @@ public class Permission {
     @JoinColumn(name = "roleId", foreignKey = @ForeignKey(name = "fk_permission_role"))
     @JsonIgnore
     private Role rolePermiss;
+
+    public Permission(int userId, int roleId, User userPermiss, Role rolePermiss) {
+        this.userId = userId;
+        this.roleId = roleId;
+        this.userPermiss = userPermiss;
+        this.rolePermiss = rolePermiss;
+    }
 }

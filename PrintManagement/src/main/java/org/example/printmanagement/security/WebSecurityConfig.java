@@ -53,7 +53,8 @@ public class WebSecurityConfig {
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/auth*").permitAll()
+                        .requestMatchers("/register").permitAll()
                         .anyRequest().authenticated()
                 );
         //Them mot lop filter kiem tra jwt

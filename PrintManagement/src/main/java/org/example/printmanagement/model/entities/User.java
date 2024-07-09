@@ -79,4 +79,14 @@ public class User {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private List<Project> projectList;
+
+    @OneToMany(mappedBy = "userToken", fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<RefreshToken> tokenList;
+
+    @OneToMany(mappedBy = "userMail", fetch = FetchType.EAGER)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private List<ConfirmEmail> emailList;
 }

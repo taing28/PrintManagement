@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/sign-up")
+@RequestMapping("/register")
 public class SignUpController {
     @Autowired
     private UserService _userService;
@@ -18,6 +18,12 @@ public class SignUpController {
 
     @PostMapping()
     public ResponseEntity<?> signUp(@RequestBody SignUpRequest request) {
-
+        try {
+            _userService.createUser(request);
+            _mailService.sendEmailWithHTML(request.getEmail(), "Welcome to Print Manager Community", "<h1>Hello there,</h1>\"+\"<h4>Have fun and give it your all ^^!</h4>");
+            return ResponseEntity.ok("Sign up successfully!");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
