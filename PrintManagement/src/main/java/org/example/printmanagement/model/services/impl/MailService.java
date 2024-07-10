@@ -49,7 +49,7 @@ public class MailService implements IMailService {
         email.setUserId(userId);
         email.setUserMail(new User(userId));
         email.setConfirmCode(code);
-        email.setExpiryTime(LocalDateTime.now().plusSeconds(60));
+        email.setExpiryTime(LocalDateTime.now().plusSeconds(120));
         email.setConfirm(false);
         return _emailRepo.save(email);
     }

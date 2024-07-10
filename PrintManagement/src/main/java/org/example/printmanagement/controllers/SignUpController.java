@@ -16,11 +16,16 @@ public class SignUpController {
     @Autowired
     private MailService _mailService;
 
+    @GetMapping()
+    public ResponseEntity<?> test() {
+        return ResponseEntity.ok("Access");
+    }
+
     @PostMapping()
     public ResponseEntity<?> signUp(@RequestBody SignUpRequest request) {
         try {
             _userService.createUser(request);
-            _mailService.sendEmailWithHTML(request.getEmail(), "Welcome to Print Manager Community", "<h1>Hello there,</h1>\"+\"<h4>Have fun and give it your all ^^!</h4>");
+            _mailService.sendEmailWithHTML(request.getEmail(), "Welcome to Print Manager Community", "<h1>Hello there,</h1>\"<h4>Have fun and give it your all ^^!</h4>");
             return ResponseEntity.ok("Sign up successfully!");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

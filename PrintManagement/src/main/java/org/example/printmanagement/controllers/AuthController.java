@@ -38,6 +38,11 @@ public class AuthController {
     @Autowired
     private MailService _mailService;
 
+    @GetMapping("/login")
+    public ResponseEntity<?> testPort() {
+        return ResponseEntity.ok("Ok");
+    }
+
     //Login method
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody SignInRequest req) {
@@ -52,6 +57,7 @@ public class AuthController {
         //Take role
         Set<String> setRoles = customUserDetail.getAuthorities().stream()
                 .map(item -> item.getAuthority()).collect(Collectors.toSet());
+
         return ResponseEntity.ok(new JwtResponse(jwt, customUserDetail.getUsername(), customUserDetail.getIsActive(), setRoles));
     }
 

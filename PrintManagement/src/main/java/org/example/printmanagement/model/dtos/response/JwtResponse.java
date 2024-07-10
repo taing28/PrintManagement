@@ -1,7 +1,11 @@
 package org.example.printmanagement.model.dtos.response;
 
-import java.util.Set;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.util.Set;
+@Data
+@NoArgsConstructor
 public class JwtResponse {
     private String token;
     private String type = "Bearer";
