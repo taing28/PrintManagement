@@ -17,7 +17,6 @@ public class ResourcePropertyDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
     @Column(insertable = false, updatable = false)
     private int propertyId;
     private String propertyDetailName;

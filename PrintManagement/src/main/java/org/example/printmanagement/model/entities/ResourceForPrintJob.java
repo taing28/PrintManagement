@@ -23,7 +23,7 @@ public class ResourceForPrintJob {
     private ResourcePropertyDetail resourcePropertyDetailPrint;
 
     @ManyToOne
-    @JoinColumn(name = "printJobId", foreignKey = @ForeignKey(name = "fk_reSrcPropDetail_reSrcProp"))
+    @JoinColumn(name = "printJobId", foreignKey = @ForeignKey(name = "fk_reSrcPrintJob_printJob"))
     @JsonIgnore
     private PrintJob printJob;
 }
