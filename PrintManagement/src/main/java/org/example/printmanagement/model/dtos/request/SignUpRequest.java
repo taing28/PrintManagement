@@ -16,7 +16,6 @@ public class SignUpRequest {
     private String cfPassword;
     private String fullname;
     private LocalDate dateOfBirth;
-    private String avatar;
     private String email;
     private String phoneNumber;
     private int teamId;
@@ -26,7 +25,6 @@ public class SignUpRequest {
         user.setUserName(this.username);
         user.setFullName(this.fullname);
         user.setDateOfBirth(this.dateOfBirth);
-        user.setAvatar(this.avatar);
         user.setEmail(this.email);
         user.setCreateTime(LocalDateTime.now());
         user.setUpdateTime(LocalDateTime.now());
