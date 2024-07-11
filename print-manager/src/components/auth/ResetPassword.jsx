@@ -1,14 +1,13 @@
-import { Button, Form, Input, message } from "antd";
+import { Button, Form, Input, message, Row } from "antd";
 import axios from "axios";
 import { memo, useState } from "react";
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export const ResetPassword = memo(() => {
     const [loading, setLoading] = useState(false);//Set loading to avoid send many request at the same time
     const navigate = useNavigate();
 
     const onFinish = async (values) => {
-        console.log(values);
         try {
             setLoading(true);
 
@@ -21,6 +20,7 @@ export const ResetPassword = memo(() => {
                         'Content-Type': 'application/json',
                     },
                 });
+                
             // Kiểm tra trạng thái thành công từ server
             if (response.status === 200) {
                 // Chuyển hướng đến trang update-password khi thành công
@@ -31,7 +31,7 @@ export const ResetPassword = memo(() => {
             }
         } catch (error) {
             console.error('Error:', error); // Handle error
-            message.error('An error occurred. Please try again later.');
+            message.error(error.response.data);
         } finally {
             setLoading(false); // Kết thúc trạng thái loading sau khi hoàn thành yêu cầu
         }
@@ -57,6 +57,9 @@ export const ResetPassword = memo(() => {
                         Send request
                     </Button>
                 </Form.Item>
+                <Row className="justify-content-end">
+                    <Link style={{ color: "#fff" }} to={"/auth/login"}>Cancel</Link>
+                </Row>
             </Form>
         </div>
     )

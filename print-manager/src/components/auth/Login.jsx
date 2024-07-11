@@ -8,7 +8,6 @@ export const Login = memo(() => {
     const navigate = useNavigate();
 
     const onFinish = async (values) => {
-        console.log(values);
         try {
             setLoading(true);
 
@@ -17,17 +16,19 @@ export const Login = memo(() => {
                     'Content-Type': 'application/json',
                 },
             });
+
             // Kiểm tra trạng thái thành công từ server
             if (response.status === 200) {
+                console.log(response.data);
                 // Chuyển hướng đến trang update-password khi thành công
-                navigate('/auth/update-password');
+                navigate('/');
             } else {
                 // Xử lý khi có lỗi từ server, ví dụ hiển thị thông báo lỗi
                 message.error('Login failed. Please try again.');
             }
         } catch (error) {
             console.error('Error:', error); // Handle error
-            message.error('An error occurred. Please try again later.');
+            message.error(error.response.data);
         } finally {
             setLoading(false); // Kết thúc trạng thái loading sau khi hoàn thành yêu cầu
         }
