@@ -43,6 +43,7 @@ public class AuthController {
 
     @GetMapping("/login")
     public ResponseEntity<?> testPort() {
+        System.out.println("Login");
         return ResponseEntity.ok("Ok");
     }
 

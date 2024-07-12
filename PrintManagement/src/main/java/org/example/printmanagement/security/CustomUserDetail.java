@@ -36,7 +36,7 @@ public class CustomUserDetail implements UserDetails {
         //Tra ve doi tuong CustomUserDetails
         return new CustomUserDetail(
                 user.getId(),
-                user.getEmail(),
+                user.getUserName(),
                 user.getPassword(),
                 user.isActive(),
                 setAuthorities
