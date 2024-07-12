@@ -104,6 +104,10 @@ export const Register = memo(() => {
                             required: true,
                             message: 'Please input your email!',
                         },
+                        {
+                            type: 'email',
+                            message: 'The input is not valid E-mail!',
+                        },
                     ]}
                 >
                     <Input className="input-box" placeholder="Email" />
@@ -115,6 +119,10 @@ export const Register = memo(() => {
                         {
                             required: true,
                             message: 'Please input your phone!',
+                        },
+                        {
+                            pattern: /^0\d{9}$/, // Pattern ensures the number starts with 0 followed by 9 digits
+                            message: 'The input is not a valid phone number!',
                         },
                     ]}
                 >
