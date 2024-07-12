@@ -16,7 +16,7 @@ export const Register = memo(() => {
                     'Content-Type': 'application/json',
                 },
             });
-            
+
             // Kiểm tra trạng thái thành công từ server
             if (response.status === 200) {
                 // Chuyển hướng đến trang update-password khi thành công
@@ -87,6 +87,12 @@ export const Register = memo(() => {
 
                 <Form.Item
                     name="dateOfBirth"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please input your dob!',
+                        },
+                    ]}
                 >
                     <DatePicker className="input-box" />
                 </Form.Item>
@@ -117,7 +123,14 @@ export const Register = memo(() => {
 
                 <hr />
 
-                <Form.Item name="teamId">
+                <Form.Item name="teamId"
+                    rules={[
+                        {
+                            required: true,
+                            message: 'Please select your team!',
+                        },
+                    ]}
+                >
                     <Select className="input-box-select" placeholder="Select team">
                         <Select.Option value="1">Team 1</Select.Option>
                     </Select>
