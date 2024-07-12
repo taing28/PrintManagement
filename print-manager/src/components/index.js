@@ -1,3 +1,4 @@
+export { Layout } from "./layouts/Layout";
 export { AuthPage } from "./auth/AuthPage";
 export { Register } from "./auth/Register";
 export { ResetPassword } from "./auth/ResetPassword";

@@ -3,7 +3,7 @@ import { memo } from "react";
 export const Footer = memo(() => {
     return (
         <>
-        Footer
+        <h1>Footer</h1>
         </>
     )
 })

@@ -20,7 +20,7 @@ export const Register = memo(() => {
             // Kiểm tra trạng thái thành công từ server
             if (response.status === 200) {
                 // Chuyển hướng đến trang update-password khi thành công
-                navigate('/login');
+                navigate('/auth/login');
             } else {
                 // Xử lý khi có lỗi từ server, ví dụ hiển thị thông báo lỗi
                 message.error('Sign up failed. Please try again.');

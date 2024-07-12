@@ -19,7 +19,8 @@ export const Login = memo(() => {
 
             // Kiểm tra trạng thái thành công từ server
             if (response.status === 200) {
-                console.log(response.data);
+                const { token } = response.data;
+                localStorage.setItem('authToken', token); // Lưu trữ token
                 // Chuyển hướng đến trang update-password khi thành công
                 navigate('/');
             } else {
