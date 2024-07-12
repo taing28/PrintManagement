@@ -14,15 +14,9 @@ public class UserController {
     @Autowired
     private UserService _userService;
 
-    @GetMapping("/test")
+    @GetMapping("/")
     @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
     public ResponseEntity<?> testRole() {
-        return ResponseEntity.ok("Access");
-    }
-
-    @GetMapping("/test1")
-    @PreAuthorize("hasRole('EMPLOYEE')")
-    public ResponseEntity<?> testRole1() {
         return ResponseEntity.ok("Access");
     }
 }
