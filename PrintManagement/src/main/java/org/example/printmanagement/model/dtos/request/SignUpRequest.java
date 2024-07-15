@@ -18,7 +18,6 @@ public class SignUpRequest {
     private LocalDate dateOfBirth;
     private String email;
     private String phoneNumber;
-    private int teamId;
 
     public User toEntity() {
         User user = new User();
@@ -29,8 +28,6 @@ public class SignUpRequest {
         user.setCreateTime(LocalDateTime.now());
         user.setUpdateTime(LocalDateTime.now());
         user.setPhoneNumber(this.phoneNumber);
-        user.setTeamId(this.teamId);
-        user.setTeam(new Team(this.teamId));
         user.setActive(true);
 
         return user;

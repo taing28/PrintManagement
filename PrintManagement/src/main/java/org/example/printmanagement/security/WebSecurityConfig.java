@@ -54,8 +54,6 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/test").permitAll()
-                        .requestMatchers("/test1").permitAll()
                         .anyRequest().authenticated()
                 );
         //Them mot lop filter kiem tra jwt
