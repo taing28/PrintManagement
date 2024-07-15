@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import './App.css';
-import { AuthPage, Home, Layout, Login, Register, ResetPassword, UpdatePassword } from "./components";
+import { AuthPage, Home, LayoutCompo, Login, Register, ResetPassword, UpdatePassword } from "./components";
 
 function App() {
   return (
@@ -13,7 +13,7 @@ function App() {
           <Route path="update-password" element={<UpdatePassword />} />
         </Route>
 
-        <Route path="/" element={<Layout />} >
+        <Route path="/" element={<LayoutCompo />} >
           <Route index element={<Home />} />
           {/* <Route path="test" element={<Login />} /> */}
         </Route>

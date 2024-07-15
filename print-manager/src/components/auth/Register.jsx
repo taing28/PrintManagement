@@ -1,5 +1,5 @@
 import { memo, useState } from "react";
-import { Button, DatePicker, Form, Input, Row, Select, message } from "antd"
+import { Button, DatePicker, Form, Input, Row, message } from "antd"
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios'
 
@@ -127,21 +127,6 @@ export const Register = memo(() => {
                     ]}
                 >
                     <Input className="input-box" placeholder="Phone number" />
-                </Form.Item>
-
-                <hr />
-
-                <Form.Item name="teamId"
-                    rules={[
-                        {
-                            required: true,
-                            message: 'Please select your team!',
-                        },
-                    ]}
-                >
-                    <Select className="input-box-select" placeholder="Select team">
-                        <Select.Option value="1">Team 1</Select.Option>
-                    </Select>
                 </Form.Item>
 
                 <Form.Item>
