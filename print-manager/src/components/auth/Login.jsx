@@ -1,7 +1,8 @@
 import { memo, useState } from "react";
-import { Button, Form, Input, Row, message } from "antd"
+import { Button, Form, Input, Row, message } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios'
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 export const Login = memo(() => {
     const [loading, setLoading] = useState(false);//Set loading to avoid send many request at the same time
@@ -20,7 +21,7 @@ export const Login = memo(() => {
             // Kiểm tra trạng thái thành công từ server
             if (response.status === 200) {
                 const { token } = response.data;
-                localStorage.setItem('authToken', token); // Lưu trữ token
+                Cookies.set('authToken', token, { expires: 7 }); // Lưu trữ token vào cookie với thời hạn 7 ngày
                 // Chuyển hướng đến trang update-password khi thành công
                 navigate('/');
             } else {

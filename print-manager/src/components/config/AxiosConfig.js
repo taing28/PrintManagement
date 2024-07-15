@@ -1,23 +1,25 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
-// Tạo instance của axios
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080', // Thay đổi base URL cho phù hợp
+    baseURL: 'http://localhost:8080', // Thay đổi URL API của bạn ở đây
+    headers: {
+        'Content-Type': 'application/json',
+    },
 });
 
-// Thêm interceptor để thêm token vào header của mỗi request
+// Thêm interceptor để thêm token vào header của tất cả các yêu cầu
 axiosInstance.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('authToken'); // Giả sử bạn lưu token trong localStorage
-    console.log(token);
-    if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+    (config) => {
+        const token = Cookies.get('authToken');
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
     }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
 );
 
 export default axiosInstance;
