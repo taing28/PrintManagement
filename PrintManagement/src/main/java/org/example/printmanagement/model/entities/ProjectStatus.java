@@ -1,5 +1,5 @@
 package org.example.printmanagement.model.entities;
 
 public enum ProjectStatus {
-    PRELAUNCH, LAUCHED
+    DESIGNING, PRINTING, DONE
 }

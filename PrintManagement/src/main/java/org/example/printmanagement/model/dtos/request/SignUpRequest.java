@@ -2,7 +2,6 @@ package org.example.printmanagement.model.dtos.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.printmanagement.model.entities.Team;
 import org.example.printmanagement.model.entities.User;
 
 import java.time.LocalDate;

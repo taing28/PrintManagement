@@ -1,6 +1,7 @@
 package org.example.printmanagement.controllers;
 
 import org.example.printmanagement.model.dtos.request.TeamRequest;
+import org.example.printmanagement.model.dtos.response.TeamResponse;
 import org.example.printmanagement.model.entities.Team;
 import org.example.printmanagement.model.services.impl.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,12 @@ public class TeamController {
 
     @GetMapping("/{id}")
     private ResponseEntity<?> getTeamById(@PathVariable int id) {
-        Team team = _teamService.getTeam(id);
-        if (team == null) {
-            return ResponseEntity.notFound().build();
+        try {
+            TeamResponse team = _teamService.getTeam(id);
+            return ResponseEntity.ok(team);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-        return ResponseEntity.ok(team);
     }
 
     @PostMapping()
@@ -61,4 +63,6 @@ public class TeamController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+
 }

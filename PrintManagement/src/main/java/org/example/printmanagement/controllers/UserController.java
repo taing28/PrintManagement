@@ -12,8 +12,8 @@ public class UserController {
     @Autowired
     private UserService _userService;
 
-    @PutMapping()
-    private ResponseEntity<?> updateUser() {
-
-    }
+//    @PutMapping()
+//    private ResponseEntity<?> updateUser() {
+//
+//    }
 }

@@ -1,6 +1,7 @@
 package org.example.printmanagement.model.services.impl;
 
 import org.example.printmanagement.model.dtos.request.TeamRequest;
+import org.example.printmanagement.model.dtos.response.TeamResponse;
 import org.example.printmanagement.model.entities.Team;
 import org.example.printmanagement.model.repositories.TeamRepo;
 import org.example.printmanagement.model.services.ITeamService;
@@ -22,8 +23,12 @@ public class TeamService implements ITeamService {
     }
 
     @Override
-    public Team getTeam(int teamId){
-        return _teamRepo.findById(teamId).get();
+    public TeamResponse getTeam(int teamId) throws Exception{
+        TeamResponse teamResponse = TeamResponse.toDTO(_teamRepo.findById(teamId).get());
+        if (teamResponse.getName().isEmpty()) {
+            throw new Exception("Team not exist");
+        }
+        return teamResponse;
     }
 
     @Override
@@ -44,6 +49,7 @@ public class TeamService implements ITeamService {
         Team oldTeam = _teamRepo.findById(team.getId()).get();
         team.setNumberOfMember(oldTeam.getNumberOfMember());
         team.setCreateTime(oldTeam.getCreateTime());
+        team.setManagerId(oldTeam.getManagerId());
         //Check if new name existed and not equal prev name
         if(_teamRepo.existsByNameEqualsIgnoreCase(team.getName()) && !team.getName().equals(oldTeam.getName())) {
             throw new Exception("Team name already existed");
