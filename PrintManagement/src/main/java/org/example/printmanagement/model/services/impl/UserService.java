@@ -3,8 +3,10 @@ package org.example.printmanagement.model.services.impl;
 import org.example.printmanagement.model.dtos.request.SignUpRequest;
 import org.example.printmanagement.model.entities.Permission;
 import org.example.printmanagement.model.entities.Role;
+import org.example.printmanagement.model.entities.Team;
 import org.example.printmanagement.model.entities.User;
 import org.example.printmanagement.model.repositories.PermissionRepo;
+import org.example.printmanagement.model.repositories.TeamRepo;
 import org.example.printmanagement.model.repositories.UserRepo;
 import org.example.printmanagement.model.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,8 @@ public class UserService implements IUserService {
     private UserRepo _userRepo;
     @Autowired
     private PermissionRepo _permissionRepo;
+    @Autowired
+    private TeamRepo _teamRepo;
     @Autowired
     private PasswordEncoder _encoder;
 
@@ -50,5 +54,28 @@ public class UserService implements IUserService {
     @Override
     public User findUserByEmail(String email) {
         return _userRepo.findUserByEmail(email);
+    }
+
+    @Override
+    public User changeUserTeam(int userId, int teamId) throws Exception {
+        //Take current User
+        User oldUser = _userRepo.findById(userId).get();
+        //Take old Team
+        Team oldTeam = _teamRepo.findById(oldUser.getTeamId()).get();
+        //Check for update or add new team
+        if (oldTeam != null) {
+            if (teamId == oldTeam.getId()) {
+                throw new Exception("There is no change");
+            }
+
+            //Need to set new manager before transfer
+            if(oldTeam.getManagerId() == oldUser.getId()) {
+                throw new Exception("Can not transfer team manager");
+            }
+        }
+        //Update Team Id
+        oldUser.setTeam(new Team(teamId));
+        oldUser.setTeamId(teamId);
+        return _userRepo.save(oldUser);
     }
 }

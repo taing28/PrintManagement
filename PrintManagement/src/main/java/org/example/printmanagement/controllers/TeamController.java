@@ -19,11 +19,11 @@ public class TeamController {
 
     @GetMapping()
     private ResponseEntity<?> getAllTeams() {
-        List<Team> teamList = _teamService.getAllTeams();
-        if (teamList.isEmpty()) {
+        List<TeamResponse> responseList = _teamService.getAllTeams();
+        if (responseList.isEmpty()) {
             return ResponseEntity.badRequest().body("There is no Team");
         }
-        return ResponseEntity.ok(teamList);
+        return ResponseEntity.ok(responseList);
     }
 
     @GetMapping("/{id}")
@@ -54,6 +54,11 @@ public class TeamController {
         }
     }
 
+    @PutMapping("/change-manager")
+    private ResponseEntity<?> editManager(@RequestParam int managerId) {
+
+    }
+
     @DeleteMapping("/{id}")
     private ResponseEntity<?> deleteTeam(@PathVariable int id) {
         try {
@@ -63,6 +68,4 @@ public class TeamController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-
 }

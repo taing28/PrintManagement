@@ -7,9 +7,10 @@ import org.example.printmanagement.model.entities.Team;
 import java.util.List;
 
 public interface ITeamService {
-    List<Team> getAllTeams();
+    List<TeamResponse> getAllTeams();
     TeamResponse getTeam(int teamId) throws Exception;
     Team createTeam(TeamRequest req) throws Exception;
     Team editTeam(TeamRequest req) throws Exception;
     void deleteTeam(int id) throws Exception;
+    void updateMembers();
 }
