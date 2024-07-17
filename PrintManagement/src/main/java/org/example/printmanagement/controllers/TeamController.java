@@ -2,7 +2,6 @@ package org.example.printmanagement.controllers;
 
 import org.example.printmanagement.model.dtos.request.TeamRequest;
 import org.example.printmanagement.model.dtos.response.TeamResponse;
-import org.example.printmanagement.model.entities.Team;
 import org.example.printmanagement.model.services.impl.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +16,12 @@ public class TeamController {
     @Autowired
     private TeamService _teamService;
 
+    //GET METHOD
+    /**
+     * @method GET
+     * @path /teams
+     * @return List < Team> - list team
+     */
     @GetMapping()
     private ResponseEntity<?> getAllTeams() {
         List<TeamResponse> responseList = _teamService.getAllTeams();
@@ -26,6 +31,12 @@ public class TeamController {
         return ResponseEntity.ok(responseList);
     }
 
+    /**
+     * @method GET
+     * @path /teams/{id}
+     * @param id team id
+     * @return Team - team that match id
+     */
     @GetMapping("/{id}")
     private ResponseEntity<?> getTeamById(@PathVariable int id) {
         try {
@@ -36,6 +47,13 @@ public class TeamController {
         }
     }
 
+    //POST METHOD
+    /**
+     * @method POST
+     * @path /teams
+     * @param req
+     * @return Team - team that created
+     */
     @PostMapping()
     private ResponseEntity<?> createTeam(@RequestBody TeamRequest req) {
         try {
@@ -45,6 +63,13 @@ public class TeamController {
         }
     }
 
+    //PUT METHOD
+    /**
+     * @method PUT
+     * @path /teams
+     * @param req = team request dto
+     * @return Team - team after edit
+     */
     @PutMapping()
     private ResponseEntity<?> editTeam(@RequestBody TeamRequest req) {
         try {
@@ -54,11 +79,29 @@ public class TeamController {
         }
     }
 
+    /**
+     * @method PUT
+     * @path /teams/change-manager
+     * @param teamId id of team modify
+     * @param managerId new manager id
+     * @return Team - team that change manager
+     */
     @PutMapping("/change-manager")
-    private ResponseEntity<?> editManager(@RequestParam int managerId) {
-
+    private ResponseEntity<?> editManager(@RequestParam int teamId, int managerId) {
+        try {
+            return ResponseEntity.ok(_teamService.changeManager(teamId, managerId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
+    //DELETE METHOD
+    /**
+     * @method DELETE
+     * @path /teams/{id}
+     * @param id id of deleted team
+     * @return String - result message
+     */
     @DeleteMapping("/{id}")
     private ResponseEntity<?> deleteTeam(@PathVariable int id) {
         try {

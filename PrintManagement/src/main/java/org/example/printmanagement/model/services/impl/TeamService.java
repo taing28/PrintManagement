@@ -14,6 +14,7 @@ import java.util.List;
 
 @Transactional(rollbackFor = Exception.class)
 @Service
+
 public class TeamService implements ITeamService {
     @Autowired
     private TeamRepo _teamRepo;
@@ -57,6 +58,16 @@ public class TeamService implements ITeamService {
         if (_teamRepo.existsByNameEqualsIgnoreCase(team.getName()) && !team.getName().equals(oldTeam.getName())) {
             throw new Exception("Team name already existed");
         }
+        return _teamRepo.save(team);
+    }
+
+    @Override
+    public Team changeManager(int teamId, int managerId) throws Exception {
+        Team team = _teamRepo.findById(teamId).get();
+        if (team.getManagerId() == managerId) {
+            throw new Exception("Nothing change");
+        }
+        team.setManagerId(managerId);
         return _teamRepo.save(team);
     }
 

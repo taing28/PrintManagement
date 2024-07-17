@@ -29,6 +29,20 @@ public class UserService implements IUserService {
     private PasswordEncoder _encoder;
 
     @Override
+    public List<User> getAllUser() {
+        return _userRepo.findAll();
+    }
+
+    @Override
+    public User getUserById(int id) throws Exception{
+        User user = _userRepo.findById(id).get();
+        if (user == null) {
+            throw new Exception("User are not available");
+        }
+        return user;
+    }
+
+    @Override
     public User createUser(SignUpRequest request) throws Exception {
         if (!request.getPassword().equals(request.getCfPassword())) {
             throw new Exception("Password not matched");

@@ -7,10 +7,18 @@ import org.example.printmanagement.model.entities.User;
 import java.util.List;
 
 public interface IUserService {
+    //GET
+    List<User> getAllUser();
+
+    User getUserById(int id) throws Exception;
+
+    //POST
     User createUser(SignUpRequest request) throws Exception;
 
+    //PUT
     User updatePassword(int userId, String password);
 
+    //GENERAL
     User findUserByEmail(String email);
 
     User changeUserTeam(int userId, int teamId) throws Exception;
