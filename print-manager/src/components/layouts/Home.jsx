@@ -6,7 +6,6 @@ export const Home = memo(() => {
   
   return (
     <div>
-      {console.log("User:", user)}
       {user && user.authorities ? (
         <div>
           <p>Roles: {user.authorities.map((value) => {

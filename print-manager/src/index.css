@@ -118,3 +118,62 @@ code {
   padding: 2px 12px;
   width: 100%;
 }
+
+/* Content Body */
+.content-body {
+  padding: 64px 0 0 200px;
+  background: url("./assests/images/background4.png") no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.fixed-sider {
+  position: fixed;
+  top: 64px;
+  /* Chiều cao của Header */
+  bottom: 0;
+  overflow: auto;
+  background-color: transparent;
+  backdrop-filter: blur(30px);
+  border-right: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.search-box {
+  height: 40px;
+}
+
+.search-box>span{
+  background-color: transparent;
+  backdrop-filter: blur(30px);
+  height: 100%;
+  color: #fff;
+}
+
+.search-box path {
+  color: #fff;
+}
+
+.search-box>span:hover,
+.search-box>span:focus-within {
+  background-color: transparent;
+}
+
+.search-box input{
+  font-size: 16px !important;
+}
+
+.search-box>span input::placeholder {
+  color: #fff;
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+.card-item {
+  font-size: 16px;
+}
+
+.card-button {
+  margin: 2px;
+  padding: 4px 16px !important;
+  width: 120px;
+}

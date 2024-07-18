@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown';
 import NavItem from 'react-bootstrap/NavItem';
@@ -6,14 +6,16 @@ import NavLink from 'react-bootstrap/NavLink';
 import { Header } from "antd/es/layout/layout";
 import { BellOutlined } from '@ant-design/icons'
 import { useUser } from "../config/UserContext";
+import Cookies from 'js-cookie';
 
 export const HeaderCompo = memo(() => {
   const { user } = useUser();
-  console.log(user);
+  console.log('User:',user);
+  
   const navigate = useNavigate();
 
   const logOut = () => {
-    localStorage.removeItem('authToken');
+    Cookies.remove('authToken');
     navigate('/auth/login');
   }
 
@@ -38,7 +40,7 @@ export const HeaderCompo = memo(() => {
               alt="Avatar"
               className="user-avatar" />{user.name}</Dropdown.Toggle>
           <Dropdown.Menu className="drop-down-list">
-            <Dropdown.Item onClick={() => {navigate("/profile")}}>Profile</Dropdown.Item>
+            <Dropdown.Item onClick={() => {navigate(`/profile/${user.name}`)}}>Profile</Dropdown.Item>
             <Dropdown.Item><button onClick={logOut} className="btn btn-danger">Log out</button></Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>

@@ -2,8 +2,10 @@ import { memo, useEffect } from "react";
 import { HeaderCompo } from "./HeaderCompo";
 import axiosInstance from "../config/AxiosConfig";
 import Cookies from 'js-cookie'
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "../config/UserContext";
+import { Layout } from "antd";
+const { Header, Content, Sider } = Layout;
 
 export const LayoutCompo = memo(() => {
     const location = useLocation(); // Lấy thông tin về location (path)
@@ -21,15 +23,13 @@ export const LayoutCompo = memo(() => {
 
             try {
                 // Thêm token vào header của yêu cầu API
-                const response = await axiosInstance.get(location.pathname, {
+                const response = await axiosInstance.get('/', {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
                 });
 
-                console.log(response.data);
                 setUser(response.data)
-                console.log('user:',user);
                 if (response.status !== 200) {
                     throw new Error('Token không hợp lệ');
                 }
@@ -44,8 +44,47 @@ export const LayoutCompo = memo(() => {
 
     return (
         <div>
-            <HeaderCompo />
-            <Outlet />
+            <Header className="p-0 fixed-top">
+                <HeaderCompo />
+            </Header>
+            <Sider
+                className="fixed-sider"
+                width={200}
+                style={{ padding: '12px' }}
+            >
+                <Link to={'/'} className="list-sider-items">
+                    <div className="btn btn-success w-100 mt-2">
+                        Home
+                    </div>
+                </Link>
+                <Link to={'/teams'} className="list-sider-items">
+                    <div className="btn btn-success w-100 mt-2">
+                        Manage Team
+                    </div>
+                </Link>
+                <Link to={'/users'} className="list-sider-items">
+                    <div className="btn btn-success w-100 mt-2">
+                        Manage User
+                    </div>
+                </Link>
+                <Link to={'/projects'} className="list-sider-items">
+                    <div className="btn btn-success w-100 mt-2">
+                        Manage Project
+                    </div>
+                </Link>
+            </Sider>
+            <Layout
+                className="content-body"
+            >
+                <Content
+                    style={{
+                        padding: '0 24px',
+                        minHeight: '100vh',
+                    }}
+                >
+                    <Outlet />
+                </Content>
+            </Layout>
         </div>
     )
 })
