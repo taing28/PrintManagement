@@ -66,6 +66,16 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public void disableUser(int userId) throws Exception{
+        if(!_userRepo.existsById(userId)) {
+            throw new Exception("User not found");
+        }
+        User user = _userRepo.findById(userId).get();
+        user.setActive(false);
+        _userRepo.save(user);
+    }
+
+    @Override
     public User findUserByEmail(String email) {
         return _userRepo.findUserByEmail(email);
     }

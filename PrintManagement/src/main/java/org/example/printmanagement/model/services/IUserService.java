@@ -18,6 +18,9 @@ public interface IUserService {
     //PUT
     User updatePassword(int userId, String password);
 
+    //DELETE
+    void disableUser(int userId) throws Exception;
+
     //GENERAL
     User findUserByEmail(String email);
 

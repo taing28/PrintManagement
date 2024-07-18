@@ -41,13 +41,13 @@ public class AuthController {
     @Autowired
     private MailService _mailService;
 
-    @GetMapping("/login")
-    public ResponseEntity<?> testPort() {
-        System.out.println("Login");
-        return ResponseEntity.ok("Ok");
-    }
-
     //Login method
+    /**
+     * @method POST
+     * @path /auth/login
+     * @param req sign in request
+     * @return JwtResponse - user info and token
+     */
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody SignInRequest req) {
         try {
@@ -73,6 +73,12 @@ public class AuthController {
     //Login via Google
 
     //Forgot password
+    /**
+     * @method POST
+     * @path /auth/reset-password
+     * @param email email of account
+     * @return message to the email
+     */
     @PostMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@RequestParam String email) {
         User user = _userService.findUserByEmail(email);
@@ -89,6 +95,12 @@ public class AuthController {
         return ResponseEntity.ok("Please check your email");
     }
 
+    /**
+     * @method POST
+     * @path /auth/update-password
+     * @param req new password and confirm code
+     * @return String - result message
+     */
     @PostMapping("/update-password")
     public ResponseEntity<?> updatePassword(@RequestBody ResetPasswordRequest req) {
         if (!req.getNewPassword().equals(req.getConfirmPassword())) {
@@ -104,6 +116,12 @@ public class AuthController {
     }
 
     //Sign up
+    /**
+     * @method POST
+     * @path /auth/register
+     * @param request sign up request
+     * @return result message to the email
+     */
     @PostMapping("/register")
     public ResponseEntity<?> signUp(@RequestBody SignUpRequest request) {
         try {
