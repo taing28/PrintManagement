@@ -10,6 +10,7 @@ export const Team = memo(() => {
     const [userList, setUserList] = useState([]);
     const [submitStatus, setSubmitStatus] = useState(false);
     const [form] = Form.useForm();
+    const [formEdit] = Form.useForm();
     // Fetch users
     useEffect(() => {
         const fetchUsers = async () => {
@@ -30,6 +31,7 @@ export const Team = memo(() => {
         try {
             const response = await axiosInstance.get('/teams');
             console.log('Teams', response);
+            console.log('Team members', response.data[0].members);
             setTeamList(response.data);
         } catch (err) {
             message.error(err.response?.data || 'Error fetching teams');
@@ -98,7 +100,7 @@ export const Team = memo(() => {
     const [selectedTeam, setSelectedTeam] = useState(null);
     const showModalUpdate = (team) => {
         setSelectedTeam(team);
-        form.setFieldsValue({
+        formEdit.setFieldsValue({
             id: team.id,
             name: team.name,
             description: team.description,
@@ -194,12 +196,13 @@ export const Team = memo(() => {
                                     }}
                                     layout="horizontal"
 
-                                    form={form}
+                                    form={formEdit}
                                     onFinish={submitUpdate}
                                 >
                                     <Form.Item
                                         label="Id"
                                         name="id"
+                                        hidden
                                     >
                                         <Input disabled />
                                     </Form.Item>
@@ -241,9 +244,9 @@ export const Team = memo(() => {
                                     >
                                         <Select>
                                             {
-                                                userList.map((user, index) => {
+                                                team.members.map((user, indexUsr) => {
                                                     return (
-                                                        <Select.Option key={index} value={user.id}>{user.fullName}</Select.Option>
+                                                        <Select.Option key={indexUsr} value={user.id}>{user.fullName}</Select.Option>
                                                     )
                                                 })
                                             }
