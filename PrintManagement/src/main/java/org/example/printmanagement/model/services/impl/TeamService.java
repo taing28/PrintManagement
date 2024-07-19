@@ -53,7 +53,7 @@ public class TeamService implements ITeamService {
         Team oldTeam = _teamRepo.findById(team.getId()).get();
         team.setNumberOfMember(oldTeam.getNumberOfMember());
         team.setCreateTime(oldTeam.getCreateTime());
-        team.setManagerId(oldTeam.getManagerId());
+//        team.setManagerId(oldTeam.getManagerId());
         //Check if new name existed and not equal prev name
         if (_teamRepo.existsByNameEqualsIgnoreCase(team.getName()) && !team.getName().equals(oldTeam.getName())) {
             throw new Exception("Team name already existed");

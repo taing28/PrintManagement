@@ -31,7 +31,6 @@ public class Project {
     public Project(int id) {
         this.id = id;
     }
-
     @ManyToOne
     @JoinColumn(name = "employeeId", foreignKey = @ForeignKey(name = "fk_project_employee"))
     @JsonIgnore
