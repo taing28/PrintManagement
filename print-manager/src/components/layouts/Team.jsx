@@ -1,17 +1,35 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { Card, Col, message, Popconfirm, Row, Spin } from "antd";
+import { Card, Col, Form, Input, message, Modal, Popconfirm, Row, Select, Spin } from "antd";
 import axiosInstance from "../config/AxiosConfig";
 import Search from "antd/es/transfer/search";
-import { Link } from "react-router-dom"
+import { useForm } from "antd/es/form/Form";
 
 export const Team = memo(() => {
     const [teamList, setTeamList] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [userList, setUserList] = useState([]);
+    const [submitStatus, setSubmitStatus] = useState(false);
+    const [form] = Form.useForm();
+    // Fetch users
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await axiosInstance.get('/users');
+                console.log('Users', response.data);
+                setUserList(response.data)
+            } catch (err) {
+                message.error(err.response?.data || 'Error fetching users');
+            }
+        }
 
+        fetchUsers();
+    }, [])
+
+    // Fetch teams
     const fetchTeams = useCallback(async () => {
         try {
-            const response = await axiosInstance.get('http://localhost:8080/teams');
-            console.log('Teams:', response);
+            const response = await axiosInstance.get('/teams');
+            console.log('Teams', response);
             setTeamList(response.data);
         } catch (err) {
             message.error(err.response?.data || 'Error fetching teams');
@@ -24,6 +42,7 @@ export const Team = memo(() => {
         fetchTeams();
     }, [fetchTeams]);
 
+    //Handle delete
     const confirm = async (teamId) => {
         try {
             await axiosInstance.delete(`http://localhost:8080/teams/${teamId}`);
@@ -40,6 +59,41 @@ export const Team = memo(() => {
         console.log(e);
         message.error('Click on No');
     };
+
+    //Handle create
+    const [isModalCreateOpen, setIsModalCreateOpen] = useState(false);
+    const showModalCreate = () => {
+        setIsModalCreateOpen(true);
+    };
+
+    const submitCreate = async (values) => {
+        try {
+            setSubmitStatus(true);
+
+            const response = await axiosInstance.post('/teams', values);
+
+            // Kiểm tra trạng thái thành công từ server
+            if (response.status === 200) {
+                fetchTeams();
+                setIsModalCreateOpen(false);
+                form.resetFields();
+            } else {
+                // Xử lý khi có lỗi từ server, ví dụ hiển thị thông báo lỗi
+                message.error('Create failed. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error); // Handle error
+            message.error(error.response.data);
+        } finally {
+            setSubmitStatus(false); // Kết thúc trạng thái loading sau khi hoàn thành yêu cầu
+        }
+    }
+
+    const handleCancelCreate = () => {
+        setIsModalCreateOpen(false);
+    };
+
+    //Handle edit
 
     //Load page to wait data to fetch
     if (loading) {
@@ -63,35 +117,109 @@ export const Team = memo(() => {
                         }}
                     />
                 </div>
-                <button className="btn btn-success">Create</button>
+                <button className="btn btn-success" onClick={showModalCreate}>Create</button>
             </Row>
             <Row className="pt-4" gutter={16}>
                 {Array.isArray(teamList) && teamList.length > 0 ? (
-                    teamList.map((team, index) => (
-                        <Col style={{padding: '8px'}} span={8} key={index}>
-                            <Card className="card-item" title={team.name} bordered={true}>
-                                <div>Description: {team.description}</div>
-                                <div>Members: {team.members.length}</div>
-                                <div className="pt-2 d-flex justify-content-center">
-                                    <button className="btn btn-primary card-button">Edit</button>
-                                    <Popconfirm
-                                        title="Delete the team"
-                                        description="Are you sure to delete this team?"
-                                        onConfirm={() => confirm(team.id)}
-                                        onCancel={cancel}
-                                        okText="Yes"
-                                        cancelText="No"
-                                    >
-                                        <button className="btn btn-danger card-button">Delete</button>
-                                    </Popconfirm>
-                                </div>
-                            </Card>
-                        </Col>
-                    ))
+                    teamList.map((team, index) => {
+                        const manager = userList.find((user) => user.id === team.managerId);
+                        return (
+                            <Col style={{ padding: '8px' }} span={8} key={index}>
+                                <Card className="card-item" title={team.name} bordered={true}>
+                                    <div>Manager: {manager.fullName}</div>
+                                    <div>Description: {team.description}</div>
+                                    <div>Members: {team.members.length}</div>
+                                    <div className="pt-2 d-flex justify-content-center">
+                                        <button className="btn btn-primary card-button">Edit</button>
+                                        <Popconfirm
+                                            title="Delete the team"
+                                            description="Are you sure to delete this team?"
+                                            onConfirm={() => confirm(team.id)}
+                                            onCancel={cancel}
+                                            okText="Yes"
+                                            cancelText="No"
+                                        >
+                                            <button className="btn btn-danger card-button">Delete</button>
+                                        </Popconfirm>
+                                    </div>
+                                </Card>
+                            </Col>
+                        )
+                    }
+                    )
                 ) : (
                     <p>No teams found</p>
                 )}
             </Row>
+            <Modal title="Create Team" open={isModalCreateOpen} onCancel={handleCancelCreate} footer={null}>
+                <Form name="create-form"
+                    labelCol={{
+                        span: 6,
+                    }}
+                    wrapperCol={{
+                        span: 14,
+                    }}
+                    layout="horizontal"
+
+                    form={form}
+                    onFinish={submitCreate}
+                >
+                    <Form.Item
+                        label="Name"
+                        name="name"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your team name!',
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Team name" />
+                    </Form.Item>
+
+                    <Form.Item
+                        label="Description"
+                        name="description"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please input your description!',
+                            },
+                        ]}
+                    >
+                        <Input placeholder="Team description" />
+                    </Form.Item>
+
+                    <Form.Item label="Manager"
+                        name="managerId"
+                        rules={[
+                            {
+                                required: true,
+                                message: 'Please choose your manager!',
+                            },
+                        ]}
+                    >
+                        <Select>
+                            {
+                                userList.map((user, index) => {
+                                    return (
+                                        <Select.Option key={index} value={user.id}>{user.fullName}</Select.Option>
+                                    )
+                                })
+                            }
+                        </Select>
+                    </Form.Item>
+
+                    <Row className="justify-content-center">
+                        <button type="submit" className="btn btn-primary card-button" disabled={submitStatus}>
+                            Submit
+                        </button>
+                        <button type="button" className="btn btn-secondary card-button" onClick={handleCancelCreate} disabled={submitStatus}>
+                            Cancel
+                        </button>
+                    </Row>
+                </Form>
+            </Modal>
         </div>
     )
 })
