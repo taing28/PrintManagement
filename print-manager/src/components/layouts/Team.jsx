@@ -160,13 +160,14 @@ export const Team = memo(() => {
                 <button className="btn btn-success" onClick={showModalCreate}>Create</button>
             </Row>
             <Row className="pt-4" gutter={16}>
-                {Array.isArray(teamList) && teamList.length > 0 ? (
+                {
                     teamList.map((team, index) => {
                         const manager = userList.find((user) => user.id === team.managerId);
+                        console.log('Manager', manager);
                         return (<>
                             <Col style={{ padding: '8px' }} span={8} key={index}>
                                 <Card className="card-item" title={team.name} bordered={true}>
-                                    <div>Manager: {manager.fullName}</div>
+                                    <div>Manager: {manager ? manager.fullName : "None"}</div>
                                     <div>Description: {team.description}</div>
                                     <div>Members: {team.members.length}</div>
                                     <div className="pt-2 d-flex justify-content-center">
@@ -267,9 +268,7 @@ export const Team = memo(() => {
                         )
                     }
                     )
-                ) : (
-                    <p>No teams found</p>
-                )}
+                }
             </Row>
             <Modal title="Create Team" open={isModalCreateOpen} onCancel={handleCancelCreate} footer={null}>
                 <Form name="create-form"
