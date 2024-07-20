@@ -18,7 +18,7 @@ public class ProjectRequest {
     private LocalDateTime expectedEndDate;
     private int employeeId;
     private int customerId;
-    private ProjectStatus projectStatus;
+    private String projectStatus; //design, print, done
 
     public Project toEntity() {
         Project project = new Project();
@@ -35,7 +35,6 @@ public class ProjectRequest {
         project.setEmployeeProject(new User(this.employeeId));
         project.setCustomerId(this.customerId);
         project.setCustomerProject(new Customer(this.customerId));
-        project.setProjectStatus(this.projectStatus);
         return project;
     }
 }

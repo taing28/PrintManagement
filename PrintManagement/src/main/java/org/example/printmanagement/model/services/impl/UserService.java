@@ -52,6 +52,8 @@ public class UserService implements IUserService {
         }
         User user = request.toEntity();
         user.setPassword(_encoder.encode(request.getPassword()));
+        user.setTeam(new Team(3));//Free team
+        user.setTeamId(3);
         //Save user for taking id
         user = _userRepo.save(user);
         _permissionRepo.save(new Permission(user.getId(), 4, new User(user.getId()), new Role(4)));

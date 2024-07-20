@@ -1,10 +1,7 @@
 package org.example.printmanagement.model.services.impl;
 
 import org.example.printmanagement.model.dtos.request.ProjectRequest;
-import org.example.printmanagement.model.entities.Permission;
-import org.example.printmanagement.model.entities.Project;
-import org.example.printmanagement.model.entities.Role;
-import org.example.printmanagement.model.entities.User;
+import org.example.printmanagement.model.entities.*;
 import org.example.printmanagement.model.repositories.PermissionRepo;
 import org.example.printmanagement.model.repositories.ProjectRepo;
 import org.example.printmanagement.model.services.IProjectService;
@@ -24,9 +21,9 @@ public class ProjectService implements IProjectService {
     private PermissionRepo _permissionRepo;
 
     @Override
-    public List<Project> getAll() throws Exception{
+    public List<Project> getAll() throws Exception {
         List<Project> projects = _projectRepo.findAll();
-        if(projects.isEmpty()) {
+        if (projects.isEmpty()) {
             throw new Exception("There is no project");
         }
         return projects;
@@ -52,6 +49,7 @@ public class ProjectService implements IProjectService {
         if (project.getExpectedEndDate().isBefore(LocalDateTime.now().plusDays(1))) {
             throw new Exception("Project end date must be after current time at least one day");
         }
+        project.setProjectStatus(ProjectStatus.DESIGNING);
         //Check if employee was not a Role_employee
         if (_permissionRepo.findPermissionByUserIdAndRoleId(project.getEmployeeId(), 4) == null) {
             Permission permission = new Permission();
@@ -76,6 +74,18 @@ public class ProjectService implements IProjectService {
         //Check if deadline too soon or in the pass
         if (project.getExpectedEndDate().isBefore(LocalDateTime.now().plusDays(1))) {
             throw new Exception("Project end date must be after current time at least one day");
+        }
+        switch (req.getProjectStatus()) {
+            case "design":
+                project.setProjectStatus(ProjectStatus.DESIGNING);
+                break;
+            case "print":
+                project.setProjectStatus(ProjectStatus.PRINTING);
+                break;
+            case "done":
+                project.setProjectStatus(ProjectStatus.DONE);
+                break;
+            default:
         }
         return _projectRepo.save(project);
     }
