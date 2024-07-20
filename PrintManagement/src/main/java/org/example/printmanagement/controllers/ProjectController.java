@@ -60,10 +60,33 @@ public class ProjectController {
     }
 
     //PUT
+    /**
+     * @method PUT
+     * @path /projects
+     * @param req ProjectRequest - project data request
+     * @return Project - new project after edit
+     */
     @PutMapping()
     private ResponseEntity<?> editProject(@RequestBody ProjectRequest req) {
         try {
             return ResponseEntity.ok(_projectService.editProject(req));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    //DELETE
+    /**
+     * @method DELETE
+     * @path /projects/{id}
+     * @param id project's id
+     * @return result message
+     */
+    @DeleteMapping("/{id}")
+    private ResponseEntity<?> deleteProject(@PathVariable int id) {
+        try {
+            _projectService.deleteProject(id);
+            return ResponseEntity.ok("Delete successfully");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
