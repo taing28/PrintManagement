@@ -59,4 +59,23 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    /**
+     * /@method PUT
+     * @path /users/{id}
+     * @param id id of user
+     * @return change status of user
+     */
+    @PutMapping("/{id}")
+    private ResponseEntity<?> changeActiveUser(@PathVariable int id) {
+        try {
+            _userService.changeActiveUser(id);
+            return ResponseEntity.ok("Change successfully");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    //DELETE METHOD
+
 }
