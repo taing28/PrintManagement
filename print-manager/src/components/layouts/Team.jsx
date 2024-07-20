@@ -185,91 +185,15 @@ export const Team = memo(() => {
                                     </div>
                                 </Card>
                             </Col>
-
-                            {/* Modal */}
-                            <Modal title="Update Team" open={isModalUpdateOpen} onCancel={handleCancelUpdate} footer={null}>
-                                <Form name="update-form"
-                                    labelCol={{
-                                        span: 6,
-                                    }}
-                                    wrapperCol={{
-                                        span: 14,
-                                    }}
-                                    layout="horizontal"
-
-                                    form={formEdit}
-                                    onFinish={submitUpdate}
-                                >
-                                    <Form.Item
-                                        label="Id"
-                                        name="id"
-                                        hidden
-                                    >
-                                        <Input disabled />
-                                    </Form.Item>
-
-                                    <Form.Item
-                                        label="Name"
-                                        name="name"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Please input your team name!',
-                                            },
-                                        ]}
-                                    >
-                                        <Input placeholder="Team name" />
-                                    </Form.Item>
-
-                                    <Form.Item
-                                        label="Description"
-                                        name="description"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Please input your description!',
-                                            },
-                                        ]}
-                                    >
-                                        <Input placeholder="Team description" />
-                                    </Form.Item>
-
-                                    <Form.Item label="Manager"
-                                        name="managerId"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Please choose your manager!',
-                                            },
-                                        ]}
-                                    >
-                                        <Select>
-                                            {
-                                                team.members.map((user, indexUsr) => {
-                                                    return (
-                                                        <Select.Option key={indexUsr} value={user.id}>{user.fullName}</Select.Option>
-                                                    )
-                                                })
-                                            }
-                                        </Select>
-                                    </Form.Item>
-
-                                    <Row className="justify-content-center">
-                                        <button type="submit" className="btn btn-primary card-button" disabled={submitStatus}>
-                                            Submit
-                                        </button>
-                                        <button type="button" className="btn btn-secondary card-button" onClick={handleCancelUpdate} disabled={submitStatus}>
-                                            Cancel
-                                        </button>
-                                    </Row>
-                                </Form>
-                            </Modal>
                         </>
                         )
                     }
                     )
                 }
             </Row>
+
+            {/* Modal */}
+
             <Modal title="Create Team" open={isModalCreateOpen} onCancel={handleCancelCreate} footer={null}>
                 <Form name="create-form"
                     labelCol={{
@@ -339,6 +263,84 @@ export const Team = memo(() => {
                     </Row>
                 </Form>
             </Modal>
+
+            <Modal title="Update Team" open={isModalUpdateOpen} onCancel={handleCancelUpdate} footer={null}>
+                                <Form name="update-form"
+                                    labelCol={{
+                                        span: 6,
+                                    }}
+                                    wrapperCol={{
+                                        span: 14,
+                                    }}
+                                    layout="horizontal"
+
+                                    form={formEdit}
+                                    onFinish={submitUpdate}
+                                >
+                                    <Form.Item
+                                        label="Id"
+                                        name="id"
+                                        hidden
+                                    >
+                                        <Input disabled />
+                                    </Form.Item>
+
+                                    <Form.Item
+                                        label="Name"
+                                        name="name"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your team name!',
+                                            },
+                                        ]}
+                                    >
+                                        <Input placeholder="Team name" />
+                                    </Form.Item>
+
+                                    <Form.Item
+                                        label="Description"
+                                        name="description"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your description!',
+                                            },
+                                        ]}
+                                    >
+                                        <Input placeholder="Team description" />
+                                    </Form.Item>
+
+                                    <Form.Item label="Manager"
+                                        name="managerId"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please choose your manager!',
+                                            },
+                                        ]}
+                                    >
+                                        <Select>
+                                            {
+                                                userList.map((user, indexUsr) => {
+                                                    return (
+                                                        <Select.Option key={indexUsr} value={user.id}>{user.fullName}</Select.Option>
+                                                    )
+                                                })
+                                            }
+                                        </Select>
+                                    </Form.Item>
+
+                                    <Row className="justify-content-center">
+                                        <button type="submit" className="btn btn-primary card-button" disabled={submitStatus}>
+                                            Submit
+                                        </button>
+                                        <button type="button" className="btn btn-secondary card-button" onClick={handleCancelUpdate} disabled={submitStatus}>
+                                            Cancel
+                                        </button>
+                                    </Row>
+                                </Form>
+                            </Modal>
         </div>
     )
 })
