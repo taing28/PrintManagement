@@ -16,7 +16,7 @@ export const User = memo(() => {
             message.error(err.response?.data || 'Error fetching users');
         }
     }
-
+    //re-render
     useState(() => {
         fetchUsers();
     }, [])
@@ -24,13 +24,13 @@ export const User = memo(() => {
     //Handle Delete
     const confirm = async (userId) => {
         try {
-            await axiosInstance.delete(`/user/${userId}`);
-            message.success('User deleted successfully');
+            await axiosInstance.put(`/users/${userId}`);
+            message.success('User status change successfully');
             // Gọi lại hàm fetchTeams để cập nhật danh sách các đội
             fetchUsers();
         } catch (error) {
-            console.error('Error deleting user:', error);
-            message.error('Failed to delete user');
+            console.error('Error change status user:', error);
+            message.error('Failed to change status user');
         }
     };
 
@@ -89,6 +89,48 @@ export const User = memo(() => {
                                             cancelText="No"
                                         >
                                             <button className="btn btn-danger">Ban</button>
+                                        </Popconfirm>
+                                    </div>
+                                </td>
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </Table>
+            <h3 style={{color:'#fff'}}>Disabled users:</h3>
+            <Table className="mt-3" striped bordered hover variant="dark">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Full name</th>
+                        <th>DOB</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Team</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {userList.map((user, index) => {
+                        return (
+                            <tr key={index} hidden={user.active}>
+                                <td>{user.userName}</td>
+                                <td>{user.fullName}</td>
+                                <td>{user.dateOfBirth}</td>
+                                <td>{user.email}</td>
+                                <td>{user.phoneNumber}</td>
+                                <td>{user.teamId}</td>
+                                <td>
+                                    <div className="d-flex justify-content-evenly">
+                                        <Popconfirm
+                                            title="Activate the user"
+                                            description="Are you sure to active this user?"
+                                            onConfirm={() => confirm(user.id)}
+                                            onCancel={cancel}
+                                            okText="Yes"
+                                            cancelText="No"
+                                        >
+                                            <button className="btn btn-secondary">Activate</button>
                                         </Popconfirm>
                                     </div>
                                 </td>
