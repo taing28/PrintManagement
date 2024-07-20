@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TeamRepo extends JpaRepository<Team, Integer> {
     Boolean existsByNameEqualsIgnoreCase(String name);
+
+    Team findTeamByNameEquals(String name);
 }

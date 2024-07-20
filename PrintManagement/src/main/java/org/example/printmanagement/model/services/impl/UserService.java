@@ -6,6 +6,7 @@ import org.example.printmanagement.model.entities.Role;
 import org.example.printmanagement.model.entities.Team;
 import org.example.printmanagement.model.entities.User;
 import org.example.printmanagement.model.repositories.PermissionRepo;
+import org.example.printmanagement.model.repositories.RoleRepo;
 import org.example.printmanagement.model.repositories.TeamRepo;
 import org.example.printmanagement.model.repositories.UserRepo;
 import org.example.printmanagement.model.services.IUserService;
@@ -27,6 +28,8 @@ public class UserService implements IUserService {
     private TeamRepo _teamRepo;
     @Autowired
     private PasswordEncoder _encoder;
+    @Autowired
+    private RoleRepo _roleRepo;
 
     @Override
     public List<User> getAllUser() {
@@ -52,11 +55,14 @@ public class UserService implements IUserService {
         }
         User user = request.toEntity();
         user.setPassword(_encoder.encode(request.getPassword()));
-        user.setTeam(new Team(3));//Free team
-        user.setTeamId(3);
+
+        Team freeTeam = _teamRepo.findTeamByNameEquals("Free");//Team for new account
+        user.setTeam(new Team(freeTeam.getId()));
+        user.setTeamId(freeTeam.getId());
         //Save user for taking id
         user = _userRepo.save(user);
-        _permissionRepo.save(new Permission(user.getId(), 4, new User(user.getId()), new Role(4)));
+        Role roleEmployee = _roleRepo.findRoleByRoleCodeEquals("EMPLOYEE");
+        _permissionRepo.save(new Permission(user.getId(), roleEmployee.getId(), new User(user.getId()), new Role(roleEmployee.getId())));
         return user;
     }
 
