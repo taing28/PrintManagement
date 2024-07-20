@@ -58,4 +58,14 @@ public class ProjectController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    //PUT
+    @PutMapping()
+    private ResponseEntity<?> editProject(@RequestBody ProjectRequest req) {
+        try {
+            return ResponseEntity.ok(_projectService.editProject(req));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

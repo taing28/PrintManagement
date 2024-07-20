@@ -26,6 +26,7 @@ public class Project {
     @Column(insertable = false, updatable = false)
     private int customerId;
     @Enumerated(EnumType.STRING)
+    @Column(length = 10)
     private ProjectStatus projectStatus;
 
     public Project(int id) {

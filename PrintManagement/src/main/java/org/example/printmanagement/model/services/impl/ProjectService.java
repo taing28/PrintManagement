@@ -4,6 +4,7 @@ import org.example.printmanagement.model.dtos.request.ProjectRequest;
 import org.example.printmanagement.model.entities.*;
 import org.example.printmanagement.model.repositories.PermissionRepo;
 import org.example.printmanagement.model.repositories.ProjectRepo;
+import org.example.printmanagement.model.repositories.RoleRepo;
 import org.example.printmanagement.model.services.IProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class ProjectService implements IProjectService {
     private ProjectRepo _projectRepo;
     @Autowired
     private PermissionRepo _permissionRepo;
+    @Autowired
+    private RoleRepo _roleRepo;
 
     @Override
     public List<Project> getAll() throws Exception {
@@ -51,12 +54,13 @@ public class ProjectService implements IProjectService {
         }
         project.setProjectStatus(ProjectStatus.DESIGNING);
         //Check if employee was not a Role_employee
-        if (_permissionRepo.findPermissionByUserIdAndRoleId(project.getEmployeeId(), 4) == null) {
+        Role roleEmployee = _roleRepo.findRoleByRoleCodeEquals("EMPLOYEE");
+        if (_permissionRepo.findPermissionByUserIdAndRoleId(project.getEmployeeId(), roleEmployee.getId()) == null) {
             Permission permission = new Permission();
             permission.setUserId(project.getEmployeeId());
             permission.setUserPermiss(new User(project.getEmployeeId()));
-            permission.setRoleId(4);//4 = ROLE_EMPLOYEE
-            permission.setRolePermiss(new Role(4));
+            permission.setRoleId(roleEmployee.getId());
+            permission.setRolePermiss(new Role(roleEmployee.getId()));
             _permissionRepo.save(permission);
         }
         return _projectRepo.save(project);
@@ -68,7 +72,7 @@ public class ProjectService implements IProjectService {
         Project oldProject = _projectRepo.findById(project.getId()).get();
         project.setStartDate(oldProject.getStartDate());
         //Check if Project name existed
-        if (_projectRepo.existsByProjectNameEqualsIgnoreCase(project.getProjectName())) {
+        if (_projectRepo.existsByProjectNameEqualsIgnoreCase(project.getProjectName()) && !oldProject.getProjectName().equals(project.getProjectName())) {
             throw new Exception("Project name already exist");
         }
         //Check if deadline too soon or in the pass
