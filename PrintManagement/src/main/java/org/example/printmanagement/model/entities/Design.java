@@ -24,6 +24,7 @@ public class Design {
     private String filePath;
     private LocalDateTime designTime;
     @Enumerated(EnumType.STRING)
+    @Column(length = 10)
     private DesignStatus designStatus;
     private int approverId;
 
