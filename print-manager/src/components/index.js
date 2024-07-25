@@ -1,7 +1,6 @@
+export { Project } from "./layouts/Project";
 export { User } from "./layouts/User";
-
 export { Team } from "./layouts/Team";
-
 export { LayoutCompo } from "./layouts/LayoutCompo";
 export { AuthPage } from "./auth/AuthPage";
 export { Register } from "./auth/Register";

@@ -3,12 +3,22 @@ import { Table } from "react-bootstrap"
 import Search from "antd/es/transfer/search";
 import { memo, useEffect, useState } from "react";
 import axiosInstance from "../config/AxiosConfig";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../config/UserContext";
 
 export const User = memo(() => {
     const [userList, setUserList] = useState([]);
     const [teamList, setTeamList] = useState([]);
     const [submitStatus, setSubmitStatus] = useState(false);
     const [formTeam] = Form.useForm();
+    //Check role
+    const navigate = useNavigate();
+    const { user } = useUser();
+    if (user.authorities?.some((value) => {
+        return value.authority === 'ROLE_ADMIN';
+    }) ? false : true) {
+        navigate('/auth/login');
+    }
 
     // Fetch teams
     useEffect(() => {

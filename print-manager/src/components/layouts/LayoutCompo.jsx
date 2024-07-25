@@ -28,7 +28,7 @@ export const LayoutCompo = memo(() => {
                         'Authorization': `Bearer ${token}`,
                     },
                 });
-
+                console.log('User', response.data);
                 setUser(response.data)
                 if (response.status !== 200) {
                     throw new Error('Token không hợp lệ');
@@ -57,12 +57,20 @@ export const LayoutCompo = memo(() => {
                         Home
                     </div>
                 </Link>
-                <Link to={'/teams'} className="list-sider-items">
+                <Link to={'/teams'} className="list-sider-items"
+                    hidden={!user.authorities?.some((value) => {
+                        return value.authority === 'ROLE_ADMIN' || value.authority === 'ROLE_MANAGER';
+                    })}
+                >
                     <div className="btn btn-success w-100 mt-2">
                         Manage Team
                     </div>
                 </Link>
-                <Link to={'/users'} className="list-sider-items">
+                <Link to={'/users'} className="list-sider-items"
+                    hidden={!user.authorities?.some((value) => {
+                        return value.authority === 'ROLE_ADMIN';
+                    })}
+                >
                     <div className="btn btn-success w-100 mt-2">
                         Manage User
                     </div>
