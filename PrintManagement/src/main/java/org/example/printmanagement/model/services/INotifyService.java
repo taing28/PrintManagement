@@ -5,5 +5,5 @@ import org.example.printmanagement.model.entities.Notification;
 import java.util.List;
 
 public interface INotifyService {
-    List<Notification> list();
+    List<Notification> listByUserId(int id);
 }

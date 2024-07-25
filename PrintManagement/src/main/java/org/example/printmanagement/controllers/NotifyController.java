@@ -4,10 +4,7 @@ import org.example.printmanagement.model.entities.Notification;
 import org.example.printmanagement.model.services.impl.NotifyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,9 +15,9 @@ public class NotifyController {
     @Autowired
     private NotifyService _notifyService;
 
-    @GetMapping()
-    public ResponseEntity<?> list() {
-        List<Notification> list = _notifyService.list();
+    @GetMapping("/{id}")
+    public ResponseEntity<?> list(@PathVariable int id) {
+        List<Notification> list = _notifyService.listByUserId(id);
         return ResponseEntity.ok(list.isEmpty() ? list : "There is no notify");
     }
 }

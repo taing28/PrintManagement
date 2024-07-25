@@ -16,7 +16,7 @@ public class NotifyService implements INotifyService {
     private NotificationRepo _notificationRepo;
 
     @Override
-    public List<Notification> list() {
-        return _notificationRepo.findAll();
+    public List<Notification> listByUserId(int id) {
+        return _notificationRepo.findAllByUserId(id);
     }
 }
