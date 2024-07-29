@@ -3,6 +3,7 @@ package org.example.printmanagement.model.services.impl;
 import org.example.printmanagement.model.entities.*;
 import org.example.printmanagement.model.repositories.DesignRepo;
 import org.example.printmanagement.model.repositories.NotificationRepo;
+import org.example.printmanagement.model.repositories.ProjectRepo;
 import org.example.printmanagement.model.services.IDesignService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ public class DesignService implements IDesignService {
     private DesignRepo _designRepo;
     @Autowired
     private NotificationRepo _notificationRepo;
+    @Autowired
+    private ProjectRepo _projectRepo;
 
     @Override
     public List<Design> list() {
@@ -28,6 +31,14 @@ public class DesignService implements IDesignService {
     @Override
     public Optional<Design> getById(int designId) {
         return _designRepo.findById(designId);
+    }
+
+    @Override
+    public List<Design> listByProject(int projectId) throws Exception {
+        if (!_projectRepo.existsById(projectId)) {
+            throw new Exception("Project not found");
+        }
+        return _designRepo.findAllByProjectId(projectId);
     }
 
     @Override
@@ -58,7 +69,7 @@ public class DesignService implements IDesignService {
         notification.setUserId(design.getDesignerId());
         notification.setUserNotify(new User(design.getDesignerId()));
         notification.setCreateTime(LocalDateTime.now());
-        notification.setLink("http://localhost:8080/designs/"+designId);
+        notification.setLink("http://localhost:8080/designs/" + designId);
         notification.setSeen(false);
         //Set designStatus
         switch (designStatus) {
@@ -75,9 +86,23 @@ public class DesignService implements IDesignService {
                 _notificationRepo.save(notification);
                 break;
             default:
-                design.setDesignStatus(DesignStatus.REVIEWING);
+                throw new Exception("Not choose yet");
         }
         _designRepo.save(design);
+    }
+
+    @Override
+    public void confirmDesignList(int approverId, List<Design> listDesign, String designStatus) throws Exception{
+        if(listDesign.isEmpty()) {
+            throw new Exception("There is no design");
+        }
+        listDesign.forEach(design -> {
+            try {
+                confirmDesign(approverId, design.getId(), designStatus);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        });
     }
 
     @Override

@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Transactional(rollbackFor = Exception.class)
 @Service
+@Transactional(rollbackFor = Exception.class)
 public class ProjectService implements IProjectService {
     @Autowired
     private ProjectRepo _projectRepo;

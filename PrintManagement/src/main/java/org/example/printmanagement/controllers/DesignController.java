@@ -1,5 +1,6 @@
 package org.example.printmanagement.controllers;
 
+import org.example.printmanagement.model.dtos.request.ApproveRequest;
 import org.example.printmanagement.model.entities.Design;
 import org.example.printmanagement.model.services.impl.CloudinaryService;
 import org.example.printmanagement.model.services.impl.DesignService;
@@ -36,6 +37,15 @@ public class DesignController {
         return ResponseEntity.ok(designOpt.isEmpty() ? designOpt.get() : "Design not found");
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<?> listByProject(@RequestParam int projectId) {
+        try {
+           return ResponseEntity.ok(_designService.listByProject(projectId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PostMapping("/upload")
     public ResponseEntity<?> upload(@RequestParam MultipartFile multipartFile, int designerId, int projectId) throws IOException {
         try {
@@ -56,6 +66,16 @@ public class DesignController {
         try {
             _designService.confirmDesign(approverId, designId, designStatus);
             return ResponseEntity.ok("Review successfull");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/approve-list")
+    public ResponseEntity<?> approveList(@RequestBody ApproveRequest req) {
+        try {
+            _designService.confirmDesignList(req.getApproverId(), req.getDesignList(), req.getDesignStatus());
+            return ResponseEntity.ok("Set successful");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

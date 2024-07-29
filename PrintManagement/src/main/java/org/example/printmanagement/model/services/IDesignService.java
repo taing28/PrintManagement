@@ -11,9 +11,13 @@ public interface IDesignService {
 
     Optional<Design> getById(int designId);
 
+    List<Design> listByProject(int projectId) throws Exception;
+
     void uploadDesign(int projectId, int designerId, String imagePath);
 
     void confirmDesign(int approverId, int designId, String designStatus) throws Exception;
+
+    void confirmDesignList(int approverId, List<Design> listDesign, String designStatus) throws Exception;
 
     void deleteDesign(int designId) throws Exception;
 }
