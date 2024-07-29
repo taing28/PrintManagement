@@ -1,3 +1,5 @@
+export { ProjectDesign } from "./layouts/ProjectDesign";
+export { ProjectDetail } from "./layouts/ProjectDetail";
 export { Project } from "./layouts/Project";
 export { User } from "./layouts/User";
 export { Team } from "./layouts/Team";
