@@ -39,8 +39,9 @@ public class ResourceController {
 
     //POST METHOD
     @PostMapping()
-    private ResponseEntity<?> create(@RequestParam MultipartFile multipartFile, @RequestBody ResourceRequest req) throws IOException {
+    private ResponseEntity<?> create(@RequestParam MultipartFile multipartFile, String name, String resourceType, int availableQuantity, String resourceStatus) throws IOException {
         try {
+            ResourceRequest req = new ResourceRequest(name, resourceType, availableQuantity, resourceStatus);
             BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
             if (bi == null) {
                 return ResponseEntity.badRequest().body("Image non valid!");

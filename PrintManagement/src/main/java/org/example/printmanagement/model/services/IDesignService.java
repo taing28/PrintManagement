@@ -17,7 +17,7 @@ public interface IDesignService {
 
     void confirmDesign(int approverId, int designId, String designStatus) throws Exception;
 
-    void confirmDesignList(int approverId, List<Design> listDesign, String designStatus) throws Exception;
+    void confirmDesignList(int projectId, int approverId, List<Design> listDesign, String designStatus) throws Exception;
 
     void deleteDesign(int designId) throws Exception;
 }

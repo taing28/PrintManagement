@@ -53,8 +53,8 @@ public class ProjectService implements IProjectService {
             throw new Exception("Project end date must be after current time at least one day");
         }
         project.setProjectStatus(ProjectStatus.DESIGNING);
-        //Check if employee was not a Role_employee
-        Role roleEmployee = _roleRepo.findRoleByRoleCodeEquals("EMPLOYEE");
+        //Check if employee was not a leader role
+        Role roleEmployee = _roleRepo.findRoleByRoleCodeEquals("LEADER");
         if (_permissionRepo.findPermissionByUserIdAndRoleId(project.getEmployeeId(), roleEmployee.getId()) == null) {
             Permission permission = new Permission();
             permission.setUserId(project.getEmployeeId());

@@ -6,6 +6,7 @@ import org.example.printmanagement.model.services.impl.CloudinaryService;
 import org.example.printmanagement.model.services.impl.DesignService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -74,7 +75,7 @@ public class DesignController {
     @PutMapping("/approve-list")
     public ResponseEntity<?> approveList(@RequestBody ApproveRequest req) {
         try {
-            _designService.confirmDesignList(req.getApproverId(), req.getDesignList(), req.getDesignStatus());
+            _designService.confirmDesignList(req.getProjectId(), req.getApproverId(), req.getDesignList(), req.getDesignStatus());
             return ResponseEntity.ok("Set successful");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());

@@ -19,9 +19,11 @@ public class Resource {
     private String resourceName;
     private String image;
     @Enumerated(EnumType.STRING)
+    @Column(length = 20)
     private ResourceType resourceType;
     private int availableQuantity;
     @Enumerated(EnumType.STRING)
+    @Column(length = 20)
     private ResourceStatus resourceStatus;
 
     public Resource(int id) {

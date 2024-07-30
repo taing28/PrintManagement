@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class ApproveRequest {
+    private int projectId;
     private int approverId;
     private List<Design> designList;
     private String designStatus;

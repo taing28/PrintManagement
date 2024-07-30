@@ -15,17 +15,19 @@ public class ResourceRequest {
     private int availableQuantity;
     private String resourceStatus;
 
-    public ResourceRequest(String resourceType, int availableQuantity, String resourceStatus) {
+    public ResourceRequest(String name, String resourceType, int availableQuantity, String resourceStatus) {
+        this.name = name;
         this.resourceType = resourceType;
         this.availableQuantity = availableQuantity;
         this.resourceStatus = resourceStatus;
     }
 
-    public ResourceRequest(String resourceType, int availableQuantity, String resourceStatus, int id) {
+    public ResourceRequest(int id, String name, String resourceType, int availableQuantity, String resourceStatus) {
+        this.id = id;
+        this.name = name;
         this.resourceType = resourceType;
         this.availableQuantity = availableQuantity;
         this.resourceStatus = resourceStatus;
-        this.id = id;
     }
 
     public Resource toEntity(){

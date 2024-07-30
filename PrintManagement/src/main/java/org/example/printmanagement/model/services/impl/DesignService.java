@@ -92,7 +92,13 @@ public class DesignService implements IDesignService {
     }
 
     @Override
-    public void confirmDesignList(int approverId, List<Design> listDesign, String designStatus) throws Exception{
+    public void confirmDesignList(int projectId, int approverId, List<Design> listDesign, String designStatus) throws Exception{
+        //Check approver
+        Project project = _projectRepo.findById(projectId).get();
+        if(project.getEmployeeId() != approverId) {
+            throw new Exception("You not own this project");
+        }
+        //
         if(listDesign.isEmpty()) {
             throw new Exception("There is no design");
         }
