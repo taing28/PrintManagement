@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../config/AxiosConfig";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, message, Select, Upload } from "antd";
@@ -80,7 +80,7 @@ export const ProjectDesign = memo(() => {
             // Kiểm tra trạng thái thành công từ server
             if (response.status === 200) {
                 // Chuyển hướng đến trang khi thành công
-                navigate('/');
+                navigate(`/projects/${projectId}/prints`);
             } else {
                 // Xử lý khi có lỗi từ server, ví dụ hiển thị thông báo lỗi
                 message.error('Set approve failed. Please try again.');
@@ -155,6 +155,20 @@ export const ProjectDesign = memo(() => {
                     <Upload {...props}>
                         <Button icon={<UploadOutlined />}>Click to Upload</Button>
                     </Upload>
+                </Row>
+                <Row
+                    className="p-2 justify-content-between"
+                >
+                    <Col>
+                        <Link to={`/projects/${projectId}`}>
+                            <button className="btn btn-secondary">Back</button>
+                        </Link>
+                    </Col>
+                    <Col style={{textAlign:'end'}}>
+                        <Link to={`/projects/${projectId}/prints`} hidden={!isApproved}>
+                            <button className="btn btn-primary">Print</button>
+                        </Link>
+                    </Col>
                 </Row>
             </Container>
         </div>

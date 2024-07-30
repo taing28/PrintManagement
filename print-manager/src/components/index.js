@@ -1,3 +1,4 @@
+export { ProjectPrint } from "./layouts/ProjectPrint";
 export { ProjectDesign } from "./layouts/ProjectDesign";
 export { ProjectDetail } from "./layouts/ProjectDetail";
 export { Project } from "./layouts/Project";
