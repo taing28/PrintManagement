@@ -1,5 +1,5 @@
 package org.example.printmanagement.model.entities;
 
 public enum ResourceStatus {
-    AVAILABLE, MAINTAINING
+    AVAILABLE, NOT_AVAILABLE
 }
