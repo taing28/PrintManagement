@@ -153,7 +153,7 @@ export const ProjectDesign = memo(() => {
                     })}
                 >
                     <Upload {...props}>
-                        <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                        <Button icon={<UploadOutlined />} hidden={isApproved}>Click to Upload</Button>
                     </Upload>
                 </Row>
                 <Row
