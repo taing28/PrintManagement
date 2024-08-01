@@ -122,7 +122,7 @@ code {
 /* Content Body */
 .content-body {
   padding: 64px 0 0 200px;
-  background: url("./assests/images/background4.png") no-repeat;
+  background: url("./assests/images/background.jpg") no-repeat;
   background-size: cover;
   background-position: center;
 }

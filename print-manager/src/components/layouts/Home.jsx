@@ -24,6 +24,7 @@ export const Home = memo(() => {
 
   return (
     <div>
+      <h1 className="text-center text-white pt-2">HOME PAGE</h1>
         <Row>
           {
             designs.map((design, index) => {
