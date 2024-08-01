@@ -1,10 +1,24 @@
-import { memo } from "react";
+import { memo, useContext } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
+import { ProjectContext } from "../config/ProjectContext";
 
 export const ProjectDetail = memo(() => {
     const { projectId } = useParams();
-    console.log('Project id:', projectId);
+    const { project, loading } = useContext(ProjectContext);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    //format dateTime to date
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
 
     return (
         <div>
@@ -17,8 +31,15 @@ export const ProjectDetail = memo(() => {
                         </Row>
                     </Col>
                     <Col lg={4} sm={12}>
-                        <div className="border border-1 border-primary-subtle p-2">
-
+                        <div className="border border-1 border-primary-subtle p-2 text-white">
+                            <ul>
+                                <li>Name: {project.projectName}</li>
+                                <li>End Date: {formatDate(project.expectedEndDate)}</li>
+                                <li>Leader: {project.employeeName}</li>
+                                <li>Customer: {project.customerName}</li>
+                                <li>Request: {project.requestDescriptionFromCustomer}</li>
+                                <li>Status: {project.projectStatus}</li>
+                            </ul>
                         </div>
                     </Col>
                 </Row>

@@ -1,12 +1,14 @@
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../config/AxiosConfig";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, message, Select, Upload } from "antd";
 import { useUser } from "../config/UserContext";
 import { Card, Col, Container, Row } from "react-bootstrap";
+import { ProjectContext } from "../config/ProjectContext";
 
 export const ProjectDesign = memo(() => {
+    const { project } = useContext(ProjectContext);
     const { projectId } = useParams();  // Extract projectId from URL
     const [designs, setDesigns] = useState([]);
     const [isApproved, setIsApproved] = useState(false);
@@ -94,6 +96,15 @@ export const ProjectDesign = memo(() => {
         }
     };
 
+    //format dateTime to date
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
     return (
         <div>
             <Container fluid className="bg-dark p-4 rounded mt-3 border border-1 border-primary-subtle">
@@ -122,6 +133,16 @@ export const ProjectDesign = memo(() => {
                         </Row>
                     </Col>
                     <Col lg={4} sm={12}>
+                        <div className="border border-1 border-primary-subtle p-2 text-white">
+                            <ul>
+                                <li>Name: {project.projectName}</li>
+                                <li>End Date: {formatDate(project.expectedEndDate)}</li>
+                                <li>Leader: {project.employeeName}</li>
+                                <li>Customer: {project.customerName}</li>
+                                <li>Request: {project.requestDescriptionFromCustomer}</li>
+                                <li>Status: {project.projectStatus}</li>
+                            </ul>
+                        </div>
                         <div
                             className="border border-1 border-primary-subtle p-2"
                             hidden={!user.authorities?.some((value) => {
@@ -172,7 +193,14 @@ export const ProjectDesign = memo(() => {
                     </Col>
                     <Col style={{ textAlign: 'end' }}>
                         <Link to={`/projects/${projectId}/prints`} hidden={!isApproved}>
-                            <button className="btn btn-primary">Print</button>
+                            <button
+                                className="btn btn-primary"
+                                hidden={!user.authorities?.some((value) => {
+                                    return value === 'ROLE_ADMIN' || value === 'ROLE_LEADER';
+                                })}
+                            >
+                                Print
+                            </button>
                         </Link>
                     </Col>
                 </Row>

@@ -176,7 +176,7 @@ export const Team = memo(() => {
                         return (<>
                             <Col style={{ padding: '8px' }} span={8} key={index}>
                                 <Card className="card-item" title={team.name} bordered={true}>
-                                    <div>Manager: {manager ? manager.fullName : "None"}</div>
+                                    <div>Manager: {manager ? manager.name : "None"}</div>
                                     <div>Description: {team.description}</div>
                                     <div>Members: {team.members.length}</div>
                                     <div className="pt-2 d-flex justify-content-center">
