@@ -96,15 +96,6 @@ export const ProjectDesign = memo(() => {
         }
     };
 
-    //format dateTime to date
-    function formatDate(dateString) {
-        const date = new Date(dateString);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    }
-
     return (
         <div>
             <Container fluid className="bg-dark p-4 rounded mt-3 border border-1 border-primary-subtle">
@@ -133,14 +124,13 @@ export const ProjectDesign = memo(() => {
                         </Row>
                     </Col>
                     <Col lg={4} sm={12}>
-                        <div className="border border-1 border-primary-subtle p-2 text-white">
-                            <ul>
-                                <li>Name: {project.projectName}</li>
-                                <li>End Date: {formatDate(project.expectedEndDate)}</li>
-                                <li>Leader: {project.employeeName}</li>
-                                <li>Customer: {project.customerName}</li>
+                        <div className="border border-1 border-primary-subtle p-3 text-white rounded">
+                            <h3>Information</h3>
+                            <ul className="rounded p-3" style={{ listStyle: 'none', backgroundColor: '#3A4156' }}>
+                                <li>Project: {project.projectName}</li>
+                                <li>Customer: {project.customer.fullName}</li>
+                                <li>Manager: {project.employee.fullName}</li>
                                 <li>Request: {project.requestDescriptionFromCustomer}</li>
-                                <li>Status: {project.projectStatus}</li>
                             </ul>
                         </div>
                         <div
@@ -195,9 +185,9 @@ export const ProjectDesign = memo(() => {
                         <Link to={`/projects/${projectId}/prints`} hidden={!isApproved}>
                             <button
                                 className="btn btn-primary"
-                                hidden={!user.authorities?.some((value) => {
+                                hidden={user.team.name !== 'Prints' && (!user.authorities?.some((value) => {
                                     return value === 'ROLE_ADMIN' || value === 'ROLE_LEADER';
-                                })}
+                                }))}
                             >
                                 Print
                             </button>

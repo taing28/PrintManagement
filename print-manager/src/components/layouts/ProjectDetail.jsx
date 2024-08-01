@@ -27,18 +27,31 @@ export const ProjectDetail = memo(() => {
                 <Row className="content">
                     <Col lg={8} sm={12}>
                         <Row>
-                            Detail
+                        <div className="p-3 text-white">
+                            <h3>Project</h3>
+                            <ul className="rounded p-3" style={{listStyle:'none', fontSize:'20px'}}>
+                                <li>Project: {project.projectName}</li>
+                                <li>Requset: {project.requestDescriptionFromCustomer}</li>
+                                <li>Start Date: {formatDate(project.startDate)}</li>
+                                <li>Expected Date: {formatDate(project.expectedEndDate)}</li>
+                                <li>Status: {project.projectStatus}</li>
+                            </ul>
+                        </div>
                         </Row>
                     </Col>
                     <Col lg={4} sm={12}>
-                        <div className="border border-1 border-primary-subtle p-2 text-white">
-                            <ul>
-                                <li>Name: {project.projectName}</li>
-                                <li>End Date: {formatDate(project.expectedEndDate)}</li>
-                                <li>Leader: {project.employeeName}</li>
-                                <li>Customer: {project.customerName}</li>
-                                <li>Request: {project.requestDescriptionFromCustomer}</li>
-                                <li>Status: {project.projectStatus}</li>
+                        <div className="border border-1 border-primary-subtle p-3 text-white rounded">
+                            <h3>Information</h3>
+                            <ul className="rounded p-3" style={{listStyle:'none', backgroundColor:'#3A4156'}}>
+                                <li>Leader: {project.employee.fullName}</li>
+                                <li>Email: {project.employee.email}</li>
+                                <li>Contact: {project.employee.phoneNumber}</li>
+                            </ul>
+                            <ul className="rounded p-3" style={{listStyle:'none', backgroundColor:'#3A4156'}}>
+                                <li>Customer: {project.customer.fullName}</li>
+                                <li>Email: {project.customer.email}</li>
+                                <li>Contact: {project.customer.phoneNumber}</li>
+                                <li>Address: {project.customer.address}</li>
                             </ul>
                         </div>
                     </Col>

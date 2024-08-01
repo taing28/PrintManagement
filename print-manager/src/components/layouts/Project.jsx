@@ -29,9 +29,9 @@ export const Project = memo(() => {
     //Check role
     const navigate = useNavigate();
     const { user } = useUser();
-    if (user.authorities?.some((value) => {
+    if (user.team.name !== 'Prints' && (user.authorities?.some((value) => {
         return value === 'ROLE_ADMIN' || value === 'ROLE_MANAGER' || value === 'ROLE_LEADER' || value === 'ROLE_SALE' || value === 'ROLE_DESIGNER';
-    }) ? false : true) {
+    }) ? false : true)) {
         navigate('/auth/login');
     }
 
@@ -84,7 +84,6 @@ export const Project = memo(() => {
                                     <div>Description: {truncateText(project.requestDescriptionFromCustomer, 30)}</div>
                                     <div>Start date: {formatDate(project.startDate)}</div>
                                     <div>End date: {formatDate(project.expectedEndDate)}</div>
-                                    <div>Process: %</div>
                                     <div className="pt-2 d-flex justify-content-center">
                                         <Link to={`/projects/${project.id}`}>
                                             <button className="btn btn-primary card-button">View</button>
