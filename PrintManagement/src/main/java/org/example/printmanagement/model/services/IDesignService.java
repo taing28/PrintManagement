@@ -15,7 +15,7 @@ public interface IDesignService {
 
     void uploadDesign(int projectId, int designerId, String imagePath);
 
-    void confirmDesign(int approverId, int designId, String designStatus) throws Exception;
+    void confirmDesign(int projectId, int approverId, int designId, String designStatus) throws Exception;
 
     void confirmDesignList(int projectId, int approverId, List<Design> listDesign, String designStatus) throws Exception;
 

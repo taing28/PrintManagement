@@ -1,6 +1,7 @@
 package org.example.printmanagement.model.services.impl;
 
 import org.example.printmanagement.model.dtos.request.ProjectRequest;
+import org.example.printmanagement.model.dtos.response.ProjectResponse;
 import org.example.printmanagement.model.entities.*;
 import org.example.printmanagement.model.repositories.PermissionRepo;
 import org.example.printmanagement.model.repositories.ProjectRepo;
@@ -24,21 +25,21 @@ public class ProjectService implements IProjectService {
     private RoleRepo _roleRepo;
 
     @Override
-    public List<Project> getAll() throws Exception {
+    public List<ProjectResponse> getAll() throws Exception {
         List<Project> projects = _projectRepo.findAll();
         if (projects.isEmpty()) {
             throw new Exception("There is no project");
         }
-        return projects;
+        return ProjectResponse.toDTO(projects);
     }
 
     @Override
-    public Project getById(int projectId) throws Exception {
+    public ProjectResponse getById(int projectId) throws Exception {
         Project project = _projectRepo.findById(projectId).get();
         if (project == null) {
             throw new Exception("Project not available");
         }
-        return project;
+        return ProjectResponse.toDTO(project);
     }
 
     @Override

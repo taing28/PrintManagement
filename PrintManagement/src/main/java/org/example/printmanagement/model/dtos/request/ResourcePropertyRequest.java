@@ -9,7 +9,6 @@ import org.example.printmanagement.model.entities.ResourceProperty;
 @NoArgsConstructor
 public class ResourcePropertyRequest {
     private int id;
-    private int quantity;
     private int resourceId;
     private String resourcePropName;
 
@@ -18,7 +17,6 @@ public class ResourcePropertyRequest {
         if (this.id != 0) {
             resourceProperty.setId(this.id);
         }
-        resourceProperty.setQuantity(this.quantity);
         resourceProperty.setResourcePropertyName(this.resourcePropName);
         resourceProperty.setResourceId(resourceId);
         resourceProperty.setResource(new Resource(resourceId));

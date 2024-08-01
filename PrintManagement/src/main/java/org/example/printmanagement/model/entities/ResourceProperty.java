@@ -19,7 +19,6 @@ public class ResourceProperty {
     private String resourcePropertyName;
     @Column(insertable = false, updatable = false)
     private int resourceId;
-    private int quantity;
 
     public ResourceProperty(int id) {
         this.id = id;

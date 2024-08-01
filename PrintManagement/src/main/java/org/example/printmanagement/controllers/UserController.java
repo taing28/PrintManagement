@@ -1,5 +1,6 @@
 package org.example.printmanagement.controllers;
 
+import org.example.printmanagement.model.dtos.response.UserResponse;
 import org.example.printmanagement.model.entities.User;
 import org.example.printmanagement.model.services.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class UserController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping()
     public ResponseEntity<?> getAll(){
-        return ResponseEntity.ok(_userService.getAllUser());
+        return ResponseEntity.ok(UserResponse.toListDTO(_userService.getAllUser()));
     }
 
     /**

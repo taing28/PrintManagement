@@ -64,17 +64,6 @@ public class DesignController {
     }
 
     @PreAuthorize("hasRole('LEADER')")
-    @PutMapping("/approve")
-    public ResponseEntity<?> approve(@RequestParam int approverId, int designId, String designStatus) {
-        try {
-            _designService.confirmDesign(approverId, designId, designStatus);
-            return ResponseEntity.ok("Review successfull");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @PreAuthorize("hasRole('LEADER')")
     @PutMapping("/approve-list")
     public ResponseEntity<?> approveList(@RequestBody ApproveRequest req) {
         try {

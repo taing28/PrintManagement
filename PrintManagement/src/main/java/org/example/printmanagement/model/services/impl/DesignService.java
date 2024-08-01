@@ -58,7 +58,7 @@ public class DesignService implements IDesignService {
     }
 
     @Override
-    public void confirmDesign(int approverId, int designId, String designStatus) throws Exception {
+    public void confirmDesign(int projectId, int approverId, int designId, String designStatus) throws Exception {
         Design design = _designRepo.findById(designId).get();
         if (design == null) {
             throw new Exception("Design not found");
@@ -69,7 +69,7 @@ public class DesignService implements IDesignService {
         notification.setUserId(design.getDesignerId());
         notification.setUserNotify(new User(design.getDesignerId()));
         notification.setCreateTime(LocalDateTime.now());
-        notification.setLink("http://localhost:8080/designs/" + designId);
+        notification.setLink("/projects/"+projectId+"/designs/");
         notification.setSeen(false);
         //Set designStatus
         switch (designStatus) {
@@ -104,7 +104,7 @@ public class DesignService implements IDesignService {
         }
         listDesign.forEach(design -> {
             try {
-                confirmDesign(approverId, design.getId(), designStatus);
+                confirmDesign(projectId, approverId, design.getId(), designStatus);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }

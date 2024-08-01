@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ResourcePropertyDetailRepo extends JpaRepository<ResourcePropertyDetail, Integer> {
+    Boolean existsByPropertyDetailName(String name);
 }
