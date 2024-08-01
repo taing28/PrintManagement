@@ -29,19 +29,19 @@ public class DesignController {
     @GetMapping()
     public ResponseEntity<?> getAll() {
         List<Design> list = _designService.list();
-        return ResponseEntity.ok(list.isEmpty() ? list : "There is no list");
+        return ResponseEntity.ok(list.isEmpty() ? "There is no list" : list);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable int id) {
         Optional<Design> designOpt = _designService.getById(id);
-        return ResponseEntity.ok(designOpt.isEmpty() ? designOpt.get() : "Design not found");
+        return ResponseEntity.ok(designOpt.isEmpty() ? "Design not found" : designOpt.get());
     }
 
     @GetMapping("/list")
     public ResponseEntity<?> listByProject(@RequestParam int projectId) {
         try {
-           return ResponseEntity.ok(_designService.listByProject(projectId));
+            return ResponseEntity.ok(_designService.listByProject(projectId));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

@@ -82,7 +82,7 @@ public class DesignService implements IDesignService {
             case "deny":
                 design.setDesignStatus(DesignStatus.DENIED);
                 //Send notify
-                notification.setContent("Your design have been approved");
+                notification.setContent("Your design have been rejected");
                 _notificationRepo.save(notification);
                 break;
             default:
@@ -98,6 +98,8 @@ public class DesignService implements IDesignService {
         if(project.getEmployeeId() != approverId) {
             throw new Exception("You not own this project");
         }
+        project.setProjectStatus(ProjectStatus.PRINTING);
+        _projectRepo.save(project);
         //
         if(listDesign.isEmpty()) {
             throw new Exception("There is no design");
