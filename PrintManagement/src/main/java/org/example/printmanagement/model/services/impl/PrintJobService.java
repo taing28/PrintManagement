@@ -1,8 +1,12 @@
 package org.example.printmanagement.model.services.impl;
 
 import org.example.printmanagement.model.dtos.request.PrintJobRequest;
+import org.example.printmanagement.model.entities.Design;
 import org.example.printmanagement.model.entities.PrintJob;
+import org.example.printmanagement.model.entities.Project;
+import org.example.printmanagement.model.repositories.DesignRepo;
 import org.example.printmanagement.model.repositories.PrintJobRepo;
+import org.example.printmanagement.model.repositories.ProjectRepo;
 import org.example.printmanagement.model.services.IPrintJobService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +19,8 @@ import java.util.List;
 public class PrintJobService implements IPrintJobService {
     @Autowired
     private PrintJobRepo _printJobRepo;
+    @Autowired
+    private ProjectRepo _projectRepo;
 
     @Override
     public List<PrintJob> getAll() {
@@ -33,6 +39,7 @@ public class PrintJobService implements IPrintJobService {
         if(!_printJobRepo.existsById(req.getId())) {
             throw new Exception("Print Job not found");
         }
+
         _printJobRepo.save(printJob);
     }
 

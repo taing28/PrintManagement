@@ -2,7 +2,7 @@ package org.example.printmanagement.model.dtos.response;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.printmanagement.model.entities.Project;
+import org.example.printmanagement.model.entities.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,12 +15,13 @@ public class ProjectResponse {
     private String projectName;
     private String requestDescriptionFromCustomer;
     private LocalDateTime startDate;
-    private int employeeId;
-    private String employeeName;
+    private User employee;
     private LocalDateTime expectedEndDate;
-    private int customerId;
-    private String customerName;
+    private Customer customer;
     private String projectStatus;
+    private List<Design> designList;
+    private List<Delivery> deliveryList;
+    private List<CustomerFeedback> customerFeedbackList;
 
     public static ProjectResponse toDTO(Project project) {
         ProjectResponse res = new ProjectResponse();
@@ -28,12 +29,13 @@ public class ProjectResponse {
         res.setProjectName(project.getProjectName());
         res.setRequestDescriptionFromCustomer(project.getRequestDescriptionFromCustomer());
         res.setStartDate(project.getStartDate());
-        res.setEmployeeId(project.getEmployeeId());
-        res.setEmployeeName(project.getEmployeeProject().getFullName());
+        res.setEmployee(project.getEmployeeProject());
         res.setExpectedEndDate(project.getExpectedEndDate());
-        res.setCustomerId(project.getCustomerId());
-        res.setCustomerName(project.getCustomerProject().getFullName());
+        res.setCustomer(project.getCustomerProject());
         res.setProjectStatus(project.getProjectStatus().toString());
+        res.setDesignList(project.getDesignList());
+        res.setDeliveryList(project.getDeliveryList());
+        res.setCustomerFeedbackList(project.getCustomerFeedbackList());
         return res;
     }
 

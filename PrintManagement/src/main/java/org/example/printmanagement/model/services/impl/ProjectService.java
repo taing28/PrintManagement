@@ -3,6 +3,7 @@ package org.example.printmanagement.model.services.impl;
 import org.example.printmanagement.model.dtos.request.ProjectRequest;
 import org.example.printmanagement.model.dtos.response.ProjectResponse;
 import org.example.printmanagement.model.entities.*;
+import org.example.printmanagement.model.repositories.DesignRepo;
 import org.example.printmanagement.model.repositories.PermissionRepo;
 import org.example.printmanagement.model.repositories.ProjectRepo;
 import org.example.printmanagement.model.repositories.RoleRepo;
