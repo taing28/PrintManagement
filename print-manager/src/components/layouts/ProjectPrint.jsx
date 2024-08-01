@@ -23,9 +23,6 @@ export const ProjectPrint = memo(() => {
                         <Row>
 
                         </Row>
-                        <Row>
-                            <button className="btn btn-warning fw-bolder" hidden={user.team.name !== 'Prints'}>Confirm Resource</button>
-                        </Row>
                     </Col>
                     <Col lg={4} sm={12}>
                         <div className="border border-1 border-primary-subtle p-3 text-white">
@@ -38,7 +35,7 @@ export const ProjectPrint = memo(() => {
                                 <li>Status: {project.projectStatus}</li>
                             </ul>
                             <div className="text-center p-2">
-                                <button className="btn btn-info w-50 shadow text-white fw-bolder" hidden={user.team.name !== 'Prints'}>Confirm design</button>
+                                <button className="btn btn-warning w-100 shadow fw-bolder" hidden={user.team.name !== 'Prints'}>Confirm resource</button>
                             </div>
                         </div>
                     </Col>
