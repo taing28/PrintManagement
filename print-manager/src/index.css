@@ -1,0 +1,179 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.wrapper-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url("./assests/images/background2.jpg") no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.wrapper {
+  width: 420px;
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, .2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+  backdrop-filter: blur(30px);
+  color: #fff;
+  border-radius: 10px;
+  padding: 30px 40px;
+}
+
+.wrapper hr {
+  color: #fff;
+}
+
+.wrapper h1 {
+  text-align: center;
+}
+
+.wrapper .input-box {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  outline: none;
+  border: 2px solid rgba(255, 255, 255, .2);
+  border-radius: 40px;
+  font-size: 16px;
+}
+
+.wrapper .input-box-select {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  outline: none;
+  font-size: 16px;
+}
+
+.wrapper .input-box-select span,
+.wrapper .input-box::placeholder,
+.wrapper .input-box input::placeholder {
+  color: #333;
+  font-size: 16px;
+}
+
+.wrapper .register-forgot {
+  justify-content: space-between;
+  margin: -15px 0 15px;
+}
+
+.wrapper .register-forgot a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.wrapper .register-forgot a:hover {
+  text-decoration: underline;
+}
+
+.wrapper button {
+  width: 100%;
+  height: 45px;
+  border-radius: 40px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* Header */
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  margin-right: 4px;
+}
+
+.drop-down-list a {
+  text-decoration: none;
+  color: #fff;
+  line-height: 2;
+}
+
+.drop-down-list a:hover {
+  background-color: #333;
+  text-decoration: underline;
+}
+
+.drop-down-list button {
+  padding: 2px 12px;
+  width: 100%;
+}
+
+/* Content Body */
+.content-body {
+  padding: 64px 0 0 200px;
+  background: url("./assests/images/background.jpg") no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.fixed-sider {
+  position: fixed;
+  top: 64px;
+  /* Chiều cao của Header */
+  bottom: 0;
+  overflow: auto;
+  background-color: transparent;
+  backdrop-filter: blur(30px);
+  border-right: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.search-box {
+  height: 40px;
+}
+
+.search-box>span{
+  background-color: transparent;
+  backdrop-filter: blur(30px);
+  height: 100%;
+  color: #fff;
+}
+
+.search-box path {
+  color: #fff;
+}
+
+.search-box>span:hover,
+.search-box>span:focus-within {
+  background-color: transparent;
+}
+
+.search-box input{
+  font-size: 16px !important;
+}
+
+.search-box>span input::placeholder {
+  color: #fff;
+  font-size: 16px;
+  opacity: 0.8;
+}
+
+.card-item {
+  font-size: 16px;
+}
+
+.card-button {
+  margin: 2px;
+  padding: 4px 16px !important;
+  width: 120px;
+}
