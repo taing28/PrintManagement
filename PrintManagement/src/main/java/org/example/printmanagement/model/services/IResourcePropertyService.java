@@ -1,4 +1,4 @@
-package org.example.printmanagement.model.services.impl;
+package org.example.printmanagement.model.services;
 
 import org.example.printmanagement.model.dtos.request.ResourcePropertyRequest;
 import org.example.printmanagement.model.entities.ResourceProperty;

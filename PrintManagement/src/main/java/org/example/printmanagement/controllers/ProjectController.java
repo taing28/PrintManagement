@@ -4,6 +4,7 @@ import org.example.printmanagement.model.dtos.request.ProjectRequest;
 import org.example.printmanagement.model.services.impl.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,7 +21,7 @@ public class ProjectController {
      * @return List< Project> - list projects
      */
     @GetMapping()
-    private ResponseEntity<?> getAll(){
+    public ResponseEntity<?> getAll(){
         try {
             return ResponseEntity.ok(_projectService.getAll());
         } catch (Exception e) {
@@ -35,7 +36,7 @@ public class ProjectController {
      * @return Project - project that match id
      */
     @GetMapping("/{id}")
-    private ResponseEntity<?> getById(@PathVariable int id) {
+    public ResponseEntity<?> getById(@PathVariable int id) {
         try {
             return ResponseEntity.ok(_projectService.getById(id));
         } catch (Exception e) {
@@ -51,7 +52,7 @@ public class ProjectController {
      * @return Project - project that created
      */
     @PostMapping()
-    private ResponseEntity<?> createProject(@RequestBody ProjectRequest req) {
+    public ResponseEntity<?> createProject(@RequestBody ProjectRequest req) {
         try {
             return ResponseEntity.ok(_projectService.createProject(req));
         } catch (Exception e) {
@@ -67,7 +68,7 @@ public class ProjectController {
      * @return Project - new project after edit
      */
     @PutMapping()
-    private ResponseEntity<?> editProject(@RequestBody ProjectRequest req) {
+    public ResponseEntity<?> editProject(@RequestBody ProjectRequest req) {
         try {
             return ResponseEntity.ok(_projectService.editProject(req));
         } catch (Exception e) {
@@ -83,7 +84,7 @@ public class ProjectController {
      * @return result message
      */
     @DeleteMapping("/{id}")
-    private ResponseEntity<?> deleteProject(@PathVariable int id) {
+    public ResponseEntity<?> deleteProject(@PathVariable int id) {
         try {
             _projectService.deleteProject(id);
             return ResponseEntity.ok("Delete successfully");

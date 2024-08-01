@@ -23,8 +23,9 @@ public class TeamController {
      * @path /teams
      * @return List < Team> - list team
      */
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
     @GetMapping()
-    private ResponseEntity<?> getAllTeams() {
+    public ResponseEntity<?> getAllTeams() {
         List<TeamResponse> responseList = _teamService.getAllTeams();
         if (responseList.isEmpty()) {
             return ResponseEntity.badRequest().body("There is no Team");
@@ -38,8 +39,9 @@ public class TeamController {
      * @param id team id
      * @return Team - team that match id
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
-    private ResponseEntity<?> getTeamById(@PathVariable int id) {
+    public ResponseEntity<?> getTeamById(@PathVariable int id) {
         try {
             TeamResponse team = _teamService.getTeam(id);
             return ResponseEntity.ok(team);
@@ -55,8 +57,9 @@ public class TeamController {
      * @param req
      * @return Team - team that created
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping()
-    private ResponseEntity<?> createTeam(@RequestBody TeamRequest req) {
+    public ResponseEntity<?> createTeam(@RequestBody TeamRequest req) {
         try {
             return ResponseEntity.ok(_teamService.createTeam(req));
         } catch (Exception e) {
@@ -71,8 +74,9 @@ public class TeamController {
      * @param req = team request dto
      * @return Team - team after edit
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping()
-    private ResponseEntity<?> editTeam(@RequestBody TeamRequest req) {
+    public ResponseEntity<?> editTeam(@RequestBody TeamRequest req) {
         try {
             return ResponseEntity.ok(_teamService.editTeam(req));
         } catch (Exception e) {
@@ -87,8 +91,9 @@ public class TeamController {
      * @param managerId new manager id
      * @return Team - team that change manager
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/change-manager")
-    private ResponseEntity<?> editManager(@RequestParam int teamId, int managerId) {
+    public ResponseEntity<?> editManager(@RequestParam int teamId, int managerId) {
         try {
             return ResponseEntity.ok(_teamService.changeManager(teamId, managerId));
         } catch (Exception e) {
@@ -103,8 +108,9 @@ public class TeamController {
      * @param id id of deleted team
      * @return String - result message
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    private ResponseEntity<?> deleteTeam(@PathVariable int id) {
+    public ResponseEntity<?> deleteTeam(@PathVariable int id) {
         try {
             _teamService.deleteTeam(id);
             return ResponseEntity.ok("Delete successful");

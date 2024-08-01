@@ -3,6 +3,7 @@ package org.example.printmanagement.model.services.impl;
 import org.example.printmanagement.model.dtos.request.ResourcePropertyRequest;
 import org.example.printmanagement.model.entities.ResourceProperty;
 import org.example.printmanagement.model.repositories.ResourcePropertyRepo;
+import org.example.printmanagement.model.services.IResourcePropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

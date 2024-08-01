@@ -47,6 +47,7 @@ public class DesignController {
         }
     }
 
+    @PreAuthorize("hasRole('DESIGNER')")
     @PostMapping("/upload")
     public ResponseEntity<?> upload(@RequestParam MultipartFile multipartFile, int designerId, int projectId) throws IOException {
         try {
@@ -62,6 +63,7 @@ public class DesignController {
         }
     }
 
+    @PreAuthorize("hasRole('LEADER')")
     @PutMapping("/approve")
     public ResponseEntity<?> approve(@RequestParam int approverId, int designId, String designStatus) {
         try {
@@ -72,6 +74,7 @@ public class DesignController {
         }
     }
 
+    @PreAuthorize("hasRole('LEADER')")
     @PutMapping("/approve-list")
     public ResponseEntity<?> approveList(@RequestBody ApproveRequest req) {
         try {
@@ -82,6 +85,7 @@ public class DesignController {
         }
     }
 
+    @PreAuthorize("hasRole('DESIGNER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable int id) {
         try {

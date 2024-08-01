@@ -20,8 +20,9 @@ public class UserController {
      * @path /users
      * @return List < User> - list users
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping()
-    private ResponseEntity<?> getAll(){
+    public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(_userService.getAllUser());
     }
 
@@ -31,8 +32,9 @@ public class UserController {
      * @param id id of user
      * @return User - user match with id
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
-    private ResponseEntity<?> getById(@PathVariable int id) {
+    public ResponseEntity<?> getById(@PathVariable int id) {
         try {
             return ResponseEntity.ok(_userService.getUserById(id));
         } catch (Exception e) {
@@ -49,9 +51,9 @@ public class UserController {
      * @param teamId id of team that user transfer to
      * @return User - user that transfer
      */
-//    @PreAuthorize("hasRole('ADMIN') or hasRole('MANAGER')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/change-team")
-    private ResponseEntity<?> editTeamMember(@RequestParam int userId, int teamId) {
+    public ResponseEntity<?> editTeamMember(@RequestParam int userId, int teamId) {
         try {
             User user = _userService.changeUserTeam(userId, teamId);
             return ResponseEntity.ok(user);
@@ -66,8 +68,9 @@ public class UserController {
      * @param id id of user
      * @return change status of user
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    private ResponseEntity<?> changeActiveUser(@PathVariable int id) {
+    public ResponseEntity<?> changeActiveUser(@PathVariable int id) {
         try {
             _userService.changeActiveUser(id);
             return ResponseEntity.ok("Change successfully");

@@ -24,12 +24,12 @@ public class ResourceController {
 
     //GET METHOD
     @GetMapping()
-    private ResponseEntity<?> getAll() {
+    public ResponseEntity<?> getAll() {
         return ResponseEntity.ok(_resourceService.getAll());
     }
 
     @GetMapping("/{id}")
-    private ResponseEntity<?> getById(@PathVariable int id) {
+    public ResponseEntity<?> getById(@PathVariable int id) {
         try {
             return ResponseEntity.ok(_resourceService.getById(id));
         } catch (Exception e) {
@@ -39,7 +39,7 @@ public class ResourceController {
 
     //POST METHOD
     @PostMapping()
-    private ResponseEntity<?> create(@RequestParam MultipartFile multipartFile, String name, String resourceType, int availableQuantity, String resourceStatus) throws IOException {
+    public ResponseEntity<?> create(@RequestParam MultipartFile multipartFile, String name, String resourceType, int availableQuantity, String resourceStatus) throws IOException {
         try {
             ResourceRequest req = new ResourceRequest(name, resourceType, availableQuantity, resourceStatus);
             BufferedImage bi = ImageIO.read(multipartFile.getInputStream());
@@ -56,7 +56,7 @@ public class ResourceController {
 
     //PUT METHOD
     @PutMapping()
-    private ResponseEntity<?> update(@RequestBody ResourceRequest req) {
+    public ResponseEntity<?> update(@RequestBody ResourceRequest req) {
         try {
             _resourceService.updateResource(req);
             return ResponseEntity.ok("Updated");
@@ -67,7 +67,7 @@ public class ResourceController {
 
     //DELETE METHOD
     @DeleteMapping("/{id}")
-    private ResponseEntity<?> delete(@PathVariable int id){
+    public ResponseEntity<?> delete(@PathVariable int id){
         try {
             _resourceService.deleteResource(id);
             return ResponseEntity.ok("Deleted");
