@@ -30,7 +30,7 @@ export const Project = memo(() => {
     const navigate = useNavigate();
     const { user } = useUser();
     if (user.authorities?.some((value) => {
-        return value.authority === 'ROLE_ADMIN' || value.authority === 'ROLE_MANAGER' || value.authority === 'ROLE_LEADER' || value.authority === 'ROLE_SALE' || value.authority === 'ROLE_DESIGNER';
+        return value === 'ROLE_ADMIN' || value === 'ROLE_MANAGER' || value === 'ROLE_LEADER' || value === 'ROLE_SALE' || value === 'ROLE_DESIGNER';
     }) ? false : true) {
         navigate('/auth/login');
     }
@@ -98,7 +98,7 @@ export const Project = memo(() => {
                                             cancelText="No"
                                         >
                                             <button className="btn btn-danger card-button" hidden={!user.authorities?.some((value) => {
-                                                return value.authority === 'ROLE_SALE';
+                                                return value === 'ROLE_SALE';
                                             })}>Delete</button>
                                         </Popconfirm>
                                     </div>

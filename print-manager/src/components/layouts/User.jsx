@@ -15,7 +15,7 @@ export const User = memo(() => {
     const navigate = useNavigate();
     const { user } = useUser();
     if (user.authorities?.some((value) => {
-        return value.authority === 'ROLE_ADMIN';
+        return value === 'ROLE_ADMIN';
     }) ? false : true) {
         navigate('/auth/login');
     }
@@ -25,7 +25,6 @@ export const User = memo(() => {
         const fetchTeams = async () => {
             try {
                 const response = await axiosInstance.get('/teams');
-                console.log('Teams', response.data);
                 setTeamList(response.data)
             } catch (err) {
                 message.error(err.response?.data || 'Error fetching teams');
@@ -39,7 +38,6 @@ export const User = memo(() => {
     const fetchUsers = async () => {
         try {
             const response = await axiosInstance.get('/users');
-            console.log('Users', response.data);
             setUserList(response.data)
         } catch (err) {
             message.error(err.response?.data || 'Error fetching users');
@@ -73,7 +71,7 @@ export const User = memo(() => {
     const showModalTeam = (user) => {
         formTeam.setFieldsValue({
             userId: user.id,
-            teamId: user.teamId,
+            teamId: user.team.id,
         });
         setIsModalTeamOpen(true);
     };
@@ -139,13 +137,13 @@ export const User = memo(() => {
                 <tbody>
                     {userList.map((user, index) => {
                         return (
-                            <tr key={index} hidden={!user.active}>
-                                <td>{user.userName}</td>
-                                <td>{user.fullName}</td>
+                            <tr key={index} hidden={!user.isActive}>
+                                <td>{user.username}</td>
+                                <td>{user.name}</td>
                                 <td>{user.dateOfBirth}</td>
                                 <td>{user.email}</td>
                                 <td>{user.phoneNumber}</td>
-                                <td>{user.teamId}</td>
+                                <td>{user.team.name}</td>
                                 <td>
                                     <div className="d-flex justify-content-evenly">
                                         <button className="btn btn-warning ">Role</button>
@@ -183,13 +181,13 @@ export const User = memo(() => {
                 <tbody>
                     {userList.map((user, index) => {
                         return (
-                            <tr key={index} hidden={user.active}>
-                                <td>{user.userName}</td>
-                                <td>{user.fullName}</td>
+                            <tr key={index} hidden={user.isActive}>
+                                <td>{user.username}</td>
+                                <td>{user.name}</td>
                                 <td>{user.dateOfBirth}</td>
                                 <td>{user.email}</td>
                                 <td>{user.phoneNumber}</td>
-                                <td>{user.teamId}</td>
+                                <td>{user.team.name}</td>
                                 <td>
                                     <div className="d-flex justify-content-evenly">
                                         <Popconfirm

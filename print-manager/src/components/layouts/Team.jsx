@@ -2,7 +2,7 @@ import { memo, useCallback, useEffect, useState } from "react";
 import { Card, Col, Form, Input, message, Modal, Popconfirm, Row, Select, Spin } from "antd";
 import axiosInstance from "../config/AxiosConfig";
 import Search from "antd/es/transfer/search";
-import { useForm } from "antd/es/form/Form";
+// import { useForm } from "antd/es/form/Form";
 import { useUser } from "../config/UserContext";
 import { useNavigate } from "react-router-dom";
 
@@ -17,7 +17,7 @@ export const Team = memo(() => {
     const navigate = useNavigate();
     const { user } = useUser();
     if (user.authorities?.some((value) => {
-        return value.authority === 'ROLE_ADMIN' || value.authority === 'ROLE_MANAGER';
+        return value === 'ROLE_ADMIN' || value === 'ROLE_MANAGER';
     }) ? false : true) {
         navigate('/auth/login');
     }
@@ -108,9 +108,7 @@ export const Team = memo(() => {
 
     //Handle edit
     const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
-    const [selectedTeam, setSelectedTeam] = useState(null);
     const showModalUpdate = (team) => {
-        setSelectedTeam(team);
         formEdit.setFieldsValue({
             id: team.id,
             name: team.name,
@@ -257,7 +255,7 @@ export const Team = memo(() => {
                             {
                                 userList.map((user, index) => {
                                     return (
-                                        <Select.Option key={index} value={user.id}>{user.fullName}</Select.Option>
+                                        <Select.Option key={index} value={user.id}>{user.name}</Select.Option>
                                     )
                                 })
                             }
@@ -335,7 +333,7 @@ export const Team = memo(() => {
                             {
                                 userList.map((user, indexUsr) => {
                                     return (
-                                        <Select.Option key={indexUsr} value={user.id}>{user.fullName}</Select.Option>
+                                        <Select.Option key={indexUsr} value={user.id}>{user.name}</Select.Option>
                                     )
                                 })
                             }

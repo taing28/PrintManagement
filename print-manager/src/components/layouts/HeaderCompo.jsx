@@ -1,4 +1,4 @@
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Dropdown from 'react-bootstrap/Dropdown';
 import NavItem from 'react-bootstrap/NavItem';
@@ -10,8 +10,7 @@ import Cookies from 'js-cookie';
 
 export const HeaderCompo = memo(() => {
   const { user } = useUser();
-  console.log('User:',user);
-  
+
   const navigate = useNavigate();
 
   const logOut = () => {
@@ -29,8 +28,12 @@ export const HeaderCompo = memo(() => {
             <BellOutlined />
           </Dropdown.Toggle>
           <Dropdown.Menu className="drop-down-list">
-            <Dropdown.Item>Noti 1</Dropdown.Item>
-            <Dropdown.Item>Noti 2</Dropdown.Item>
+            {user.notificationList && user.notificationList.length > 0 ? user.notificationList.map((noti, index) => {
+              return (
+                <Dropdown.Item key={index} >{noti.content}</Dropdown.Item>
+              )
+            }) : <Dropdown.Item>Nothing yet</Dropdown.Item>}
+
           </Dropdown.Menu>
         </Dropdown>
 
@@ -40,7 +43,7 @@ export const HeaderCompo = memo(() => {
               alt="Avatar"
               className="user-avatar" />{user.name}</Dropdown.Toggle>
           <Dropdown.Menu className="drop-down-list">
-            <Dropdown.Item onClick={() => {navigate(`/profile/${user.name}`)}}>Profile</Dropdown.Item>
+            <Dropdown.Item onClick={() => { navigate(`/profile/${user.name}`) }}>Profile</Dropdown.Item>
             <Dropdown.Item><button onClick={logOut} className="btn btn-danger">Log out</button></Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>

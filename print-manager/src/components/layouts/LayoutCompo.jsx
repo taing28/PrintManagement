@@ -59,7 +59,7 @@ export const LayoutCompo = memo(() => {
                 </Link>
                 <Link to={'/teams'} className="list-sider-items"
                     hidden={!user.authorities?.some((value) => {
-                        return value.authority === 'ROLE_ADMIN' || value.authority === 'ROLE_MANAGER';
+                        return value === 'ROLE_ADMIN' || value === 'ROLE_MANAGER';
                     })}
                 >
                     <div className="btn btn-success w-100 mt-2">
@@ -68,7 +68,7 @@ export const LayoutCompo = memo(() => {
                 </Link>
                 <Link to={'/users'} className="list-sider-items"
                     hidden={!user.authorities?.some((value) => {
-                        return value.authority === 'ROLE_ADMIN';
+                        return value === 'ROLE_ADMIN';
                     })}
                 >
                     <div className="btn btn-success w-100 mt-2">

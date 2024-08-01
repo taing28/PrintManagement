@@ -42,7 +42,7 @@ export const ProjectDesign = memo(() => {
         customRequest({ file, onSuccess, onError }) {
             const formData = new FormData();
             formData.append('multipartFile', file);
-            formData.append('designerId', user.principal.id);
+            formData.append('designerId', user.id);
             formData.append('projectId', projectId);
 
             axiosInstance.post(`/designs/upload`, formData, {
@@ -71,7 +71,8 @@ export const ProjectDesign = memo(() => {
         try {
             setLoading(true);
             const req = {
-                approverId: user.principal.id,
+                projectId: projectId,
+                approverId: user.id,
                 designList: designs,
                 designStatus: values.designStatus,
             }
@@ -121,7 +122,12 @@ export const ProjectDesign = memo(() => {
                         </Row>
                     </Col>
                     <Col lg={4} sm={12}>
-                        <div className="border border-1 border-primary-subtle p-2">
+                        <div
+                            className="border border-1 border-primary-subtle p-2"
+                            hidden={!user.authorities?.some((value) => {
+                                return value === 'ROLE_LEADER';
+                            })}
+                        >
                             <Form name="approve-form" onFinish={onFinish}>
                                 <Form.Item
                                     name="designStatus"
@@ -149,11 +155,11 @@ export const ProjectDesign = memo(() => {
                 <Row
                     className="p-2"
                     hidden={!user.authorities?.some((value) => {
-                        return value.authority === 'ROLE_DESIGNER';
+                        return value === 'ROLE_DESIGNER';
                     })}
                 >
                     <Upload {...props}>
-                        <Button icon={<UploadOutlined />} hidden={isApproved}>Click to Upload</Button>
+                        <Button icon={<UploadOutlined />} hidden={(isApproved && designs.length > 0) || designs.length === 1}>Click to Upload</Button>
                     </Upload>
                 </Row>
                 <Row
@@ -164,7 +170,7 @@ export const ProjectDesign = memo(() => {
                             <button className="btn btn-secondary">Back</button>
                         </Link>
                     </Col>
-                    <Col style={{textAlign:'end'}}>
+                    <Col style={{ textAlign: 'end' }}>
                         <Link to={`/projects/${projectId}/prints`} hidden={!isApproved}>
                             <button className="btn btn-primary">Print</button>
                         </Link>
