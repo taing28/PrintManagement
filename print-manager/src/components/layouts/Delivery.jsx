@@ -2,20 +2,21 @@ import Search from "antd/es/transfer/search";
 import { memo, useCallback, useState } from "react";
 import { Table } from "react-bootstrap";
 import axiosInstance from "../config/AxiosConfig";
-import { message, Row } from "antd";
+import { message, Modal, Row } from "antd";
 import { useUser } from "../config/UserContext";
 
 export const Delivery = memo(() => {
     const { user } = useUser();
     const [deliveries, setDeliveries] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     //fetch deliveries
     const fetchDeliveries = useCallback(async () => {
         try {
             const response = await axiosInstance.get('/delivery');
-            console.log('Deliveries',response.data);
+            console.log('Deliveries', response.data);
             setDeliveries(response.data)
-            
+
         } catch (err) {
             message.error(err.response?.data || 'Error fetching users');
         }
@@ -25,6 +26,17 @@ export const Delivery = memo(() => {
     useState(() => {
         fetchDeliveries();
     }, [fetchDeliveries])
+
+    //ResourceDetail add quantity Form
+    const showModal = () => {
+      setIsModalOpen(true);
+    };
+    const handleOk = () => {
+      setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+      setIsModalOpen(false);
+    };
 
     return (
         <div>
@@ -73,6 +85,13 @@ export const Delivery = memo(() => {
                     })}
                 </tbody>
             </Table>
+
+            {/* Modals */}
+            <Modal title="" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+            </Modal>    
         </div>
     )
 })
