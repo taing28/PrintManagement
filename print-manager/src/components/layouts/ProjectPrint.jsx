@@ -28,7 +28,7 @@ export const ProjectPrint = memo(() => {
                         <div className="border border-1 border-primary-subtle p-3 text-white">
                             <h3>Information</h3>
                             <div className="p-2" style={{maxWidth:'300px'}}>
-                                <img className="w-100" src={project.designList[0].filePath} alt="Design" />
+                                <img className="w-100" src={project.designList.length > 0 ? project.designList[0].filePath : ""} alt="Design" />
                             </div>
                             <ul className="rounded p-3" style={{ listStyle: 'none', backgroundColor: '#3A4156' }}>
                                 <li>Project: {project.projectName}</li>
