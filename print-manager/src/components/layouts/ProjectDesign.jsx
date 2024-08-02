@@ -111,9 +111,8 @@ export const ProjectDesign = memo(() => {
                                                 <Card.Img variant="top" src={design.filePath} />
                                                 <Card.Body>
                                                     <Card.Title>{design.designStatus}</Card.Title>
-                                                    <Card.Text>
-                                                        Some quick example text to build on the card title and make up the
-                                                        bulk of the card's content.
+                                                    <Card.Text hidden={!(user.id === design.designerId)}>
+                                                        <button className="btn btn-danger">Delete</button>
                                                     </Card.Text>
                                                 </Card.Body>
                                             </Card>

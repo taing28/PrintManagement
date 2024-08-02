@@ -21,7 +21,7 @@ export const ProjectPrint = memo(() => {
                 <Row className="content">
                     <Col lg={8} sm={12}>
                         <Row>
-
+                            
                         </Row>
                     </Col>
                     <Col lg={4} sm={12}>

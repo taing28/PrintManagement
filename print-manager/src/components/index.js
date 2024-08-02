@@ -1,3 +1,6 @@
+export { Delivery } from "./layouts/Delivery";
+export { ProjectBill } from "./layouts/ProjectBill";
+export { Stock } from "./layouts/Stock";
 export { ProjectPrint } from "./layouts/ProjectPrint";
 export { ProjectDesign } from "./layouts/ProjectDesign";
 export { ProjectDetail } from "./layouts/ProjectDetail";

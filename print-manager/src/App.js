@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import './App.css';
-import { AuthPage, Home, LayoutCompo, Login, Project, ProjectDesign, ProjectDetail, ProjectPrint, Register, ResetPassword, Team, UpdatePassword, User } from "./components";
+import { AuthPage, Delivery, Home, LayoutCompo, Login, Project, ProjectBill, ProjectDesign, ProjectDetail, ProjectPrint, Register, ResetPassword, Stock, Team, UpdatePassword, User } from "./components";
 import { ProjectProvider } from "./components/config/ProjectContext";
 
 function App() {
@@ -33,7 +33,14 @@ function App() {
             <ProjectProvider>
               <ProjectPrint />
             </ProjectProvider>
-            } />
+          } />
+          <Route path="projects/:projectId/bill" element={
+            <ProjectProvider>
+              <ProjectBill />
+            </ProjectProvider>
+          } />
+          <Route path="stocks" element={<Stock />} />
+          <Route path="deliveries" element={<Delivery />} />
         </Route>
       </Routes>
 
