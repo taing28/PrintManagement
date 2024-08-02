@@ -33,14 +33,16 @@ public class ResourcePropertyDetailService implements IResourcePropertyDetailSer
     }
 
     @Override
-    public void updateQuantity(ResourcePropertyDetailRequest req) throws Exception {
-        if (_detailRepo.existsById(req.getId())) {
+    public void updateQuantity(int propertyDetailId, int quantity) throws Exception {
+        if (_detailRepo.existsById(propertyDetailId)) {
             throw new Exception("Property Detail Not Found");
         }
-        if (req.getQuantity() < 0) {
+        if (quantity < 0) {
             throw new Exception("Quantity must be positive number");
         }
-        _detailRepo.save(req.toEntity());
+        ResourcePropertyDetail propertyDetail = _detailRepo.findById(propertyDetailId).get();
+        propertyDetail.setQuantity(quantity);
+        _detailRepo.save(propertyDetail);
     }
 
     @Override

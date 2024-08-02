@@ -10,7 +10,7 @@ public interface IResourcePropertyDetailService {
 
     void create(ResourcePropertyDetailRequest req) throws Exception;
 
-    void updateQuantity(ResourcePropertyDetailRequest req) throws Exception;
+    void updateQuantity(int propertyDetailId, int quantity) throws Exception;
 
     void delete(int id) throws Exception;
 }
