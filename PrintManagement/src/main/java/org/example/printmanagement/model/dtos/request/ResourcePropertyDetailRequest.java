@@ -18,9 +18,7 @@ public class ResourcePropertyDetailRequest {
     private int quantity;
 
     public ResourcePropertyDetailRequest(int id, String imageUrl, BigDecimal price, String propertyDetailName, int propertyId, int quantity) {
-        if (id != 0) {
-            this.id = id;
-        }
+        this.id = id;
         this.imageUrl = imageUrl;
         this.price = price;
         this.propertyDetailName = propertyDetailName;
@@ -30,7 +28,9 @@ public class ResourcePropertyDetailRequest {
 
     public ResourcePropertyDetail toEntity() {
         ResourcePropertyDetail propertyDetail = new ResourcePropertyDetail();
-        propertyDetail.setId(this.id);
+        if(this.id != 0) {
+            propertyDetail.setId(this.id);
+        }
         propertyDetail.setImage(this.imageUrl);
         propertyDetail.setPrice(this.price);
         propertyDetail.setPropertyDetailName(this.propertyDetailName);
