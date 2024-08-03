@@ -2,7 +2,7 @@ import { memo, useCallback, useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../config/AxiosConfig";
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Form, message, Select, Upload } from "antd";
+import { Button, Form, message, Popconfirm, Select, Upload } from "antd";
 import { useUser } from "../config/UserContext";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { ProjectContext } from "../config/ProjectContext";
@@ -96,6 +96,27 @@ export const ProjectDesign = memo(() => {
         }
     };
 
+    //Handle Delete
+    const confirm = async (designId) => {
+        try {
+            await axiosInstance.delete(`/designs/${designId}`);
+            message.success('Delete successfully');
+            // Gọi lại hàm fetchTeams để cập nhật danh sách các đội
+            fetchDesign();
+        } catch (error) {
+            message.error('Failed to delete design');
+        }
+    };
+
+    const cancel = (e) => {
+        message.error('Clicked on No');
+    };
+
+    //Loading project
+    if (!project) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div>
             <Container fluid className="bg-dark p-4 rounded mt-3 border border-1 border-primary-subtle">
@@ -112,7 +133,16 @@ export const ProjectDesign = memo(() => {
                                                 <Card.Body>
                                                     <Card.Title>{design.designStatus}</Card.Title>
                                                     <Card.Text hidden={!(user.id === design.designerId)}>
-                                                        <button className="btn btn-danger">Delete</button>
+                                                        <Popconfirm
+                                                            title="Delete the design"
+                                                            description="Are you sure to delete this design?"
+                                                            onConfirm={() => confirm(design.id)}
+                                                            onCancel={cancel}
+                                                            okText="Yes"
+                                                            cancelText="No"
+                                                        >
+                                                            <button className="btn btn-danger" disabled={isApproved}>Delete</button>
+                                                        </Popconfirm>
                                                     </Card.Text>
                                                 </Card.Body>
                                             </Card>

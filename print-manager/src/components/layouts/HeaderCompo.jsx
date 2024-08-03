@@ -30,7 +30,7 @@ export const HeaderCompo = memo(() => {
           <Dropdown.Menu className="drop-down-list">
             {user.notificationList && user.notificationList.length > 0 ? user.notificationList.map((noti, index) => {
               return (
-                <Dropdown.Item key={index} >{noti.content}</Dropdown.Item>
+                <Dropdown.Item key={index} onClick={() => navigate(noti.link)}>{noti.content}</Dropdown.Item>
               )
             }) : <Dropdown.Item>Nothing yet</Dropdown.Item>}
 

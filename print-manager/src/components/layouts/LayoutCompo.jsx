@@ -86,14 +86,18 @@ export const LayoutCompo = memo(() => {
                 </Link>
                 <Link to={'/deliveries'} className="list-sider-items"
                     hidden={!user.authorities?.some((value) => {
-                        return value === 'ROLE_ADMIN';
+                        return value === 'ROLE_ADMIN' || value === 'ROLE_DELIVER';
                     })}
                 >
                     <div className="btn btn-success w-100 mt-2">
                         Manage Delivery
                     </div>
                 </Link>
-                <Link to={'/projects'} className="list-sider-items">
+                <Link to={'/projects'} className="list-sider-items"
+                    hidden={user.authorities?.some((value) => {
+                        return value === 'ROLE_DELIVER';
+                    })}
+                >
                     <div className="btn btn-success w-100 mt-2">
                         Manage Project
                     </div>
