@@ -1,5 +1,5 @@
 import Search from "antd/es/transfer/search";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { Table } from "react-bootstrap";
 import axiosInstance from "../config/AxiosConfig";
 import { message, Row } from "antd";
