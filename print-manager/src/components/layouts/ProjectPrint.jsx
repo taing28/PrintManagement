@@ -101,8 +101,8 @@ export const ProjectPrint = memo(() => {
                         </Link>
                     </Col>
                     <Col style={{ textAlign: 'end' }}>
-                        <Link to={`/projects/${projectId}/designs`}>
-                            <button className="btn btn-primary">Next</button>
+                        <Link to={`/projects/${projectId}/bill`}>
+                            <button className="btn btn-primary">Bill</button>
                         </Link>
                     </Col>
                 </Row>
