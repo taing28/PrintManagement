@@ -8,9 +8,11 @@ import java.util.List;
 public interface IDeliveryService {
     List<DeliveryResponse> list() throws Exception;
 
+    List<DeliveryResponse> listByDeliver(int id) throws Exception;
+
     void create(DeliveryRequest req) throws Exception;
 
-    void update(DeliveryRequest req) throws Exception;
+    void setStatus(int id) throws Exception;
 
     void delete(int id) throws Exception;
 }

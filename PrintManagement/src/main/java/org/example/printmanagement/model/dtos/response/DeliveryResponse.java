@@ -5,6 +5,8 @@ import lombok.NoArgsConstructor;
 import org.example.printmanagement.model.entities.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -15,11 +17,11 @@ public class DeliveryResponse {
     private Customer customer;
     private User deliver;
     private String deliveryAddress;
-    private String deliveryStuatus;
+    private String deliveryStatus;
     private Project project;
     private ShippingMethod method;
 
-    public static DeliveryResponse toDTO(Delivery delivery, User deliver){
+    public static DeliveryResponse toDTO(Delivery delivery, User deliver) {
         DeliveryResponse res = new DeliveryResponse();
         res.setId(delivery.getId());
         res.setActualDeliveryTime(delivery.getActualDeliveryTime());
@@ -27,7 +29,7 @@ public class DeliveryResponse {
         res.setCustomer(delivery.getCustomerDelivery());
         res.setDeliver(deliver);
         res.setDeliveryAddress(delivery.getDeliveryAddress());
-        res.setDeliveryStuatus(delivery.getDeliveryStatus().toString());
+        res.setDeliveryStatus(delivery.getDeliveryStatus().toString());
         res.setProject(delivery.getProjectDelivery());
         res.setMethod(delivery.getShippingMethod());
         return res;
