@@ -11,7 +11,6 @@ public class DeliveryRequest {
     private int customerId;
     private int deliverId;
     private String deliveryAddress;
-    private String deliveryStatus;
     private int projectId;
     private int shippingMethodId;
 
@@ -24,15 +23,6 @@ public class DeliveryRequest {
         delivery.setCustomerDelivery(new Customer(this.customerId));
         delivery.setDeliverId(this.deliverId);
         delivery.setDeliveryAddress(this.deliveryAddress);
-        switch (this.deliveryStatus) {
-            case "received":
-                delivery.setDeliveryStatus(DeliveryStatus.RECEIVED);
-                break;
-            case "shipping":
-                delivery.setDeliveryStatus(DeliveryStatus.SHIPPING);
-            default:
-                delivery.setDeliveryStatus(DeliveryStatus.PREPARING);
-        }
         delivery.setProjectId(this.projectId);
         delivery.setProjectDelivery(new Project(this.projectId));
         delivery.setShippingMethodId(this.shippingMethodId);

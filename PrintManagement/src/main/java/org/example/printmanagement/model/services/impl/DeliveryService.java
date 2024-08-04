@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +54,21 @@ public class DeliveryService implements IDeliveryService {
 
     @Override
     public void create(DeliveryRequest req) throws Exception {
-
+        Delivery delivery = req.toEntity();
+        delivery.setDeliveryStatus(DeliveryStatus.PREPARING);
+        switch (req.getShippingMethodId()) {
+            case 1:
+                delivery.setEstimateDeliveryTime(LocalDateTime.now().plusDays(3));
+                break;
+            case 2:
+                delivery.setEstimateDeliveryTime(LocalDateTime.now().plusDays(10));
+                break;
+            case 3:
+                delivery.setEstimateDeliveryTime(LocalDateTime.now().plusDays(7));
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -65,6 +80,7 @@ public class DeliveryService implements IDeliveryService {
         switch (delivery.getDeliveryStatus()) {
             case PREPARING:
                 delivery.setDeliveryStatus(DeliveryStatus.SHIPPING);
+                delivery.setActualDeliveryTime(LocalDateTime.now());
                 break;
             case SHIPPING:
                 delivery.setDeliveryStatus(DeliveryStatus.RECEIVED);

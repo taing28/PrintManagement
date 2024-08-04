@@ -1,5 +1,7 @@
 package org.example.printmanagement.controllers;
 
+import org.example.printmanagement.model.dtos.request.DeliveryRequest;
+import org.example.printmanagement.model.entities.Delivery;
 import org.example.printmanagement.model.services.impl.DeliveryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,19 @@ public class DeliveryController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    //POST METHOD
+    @PostMapping()
+    public ResponseEntity<?> create(@RequestBody DeliveryRequest req) {
+        try {
+            _deliveryService.create(req);
+            return ResponseEntity.ok("Created");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
+    }
+
     //PUT METHOD
     @PutMapping("/{deliveryId}")
     public ResponseEntity<?> setStatus(@PathVariable int deliveryId) {

@@ -1,16 +1,18 @@
 package org.example.printmanagement.model.services;
 
 import org.example.printmanagement.model.dtos.request.SignUpRequest;
-import org.example.printmanagement.model.entities.Team;
 import org.example.printmanagement.model.entities.User;
 
 import java.util.List;
+import java.util.Set;
 
 public interface IUserService {
     //GET
     List<User> getAllUser();
 
     User getUserById(int id) throws Exception;
+
+    Set<User> getAllDeliver() throws Exception;
 
     //POST
     User createUser(SignUpRequest request) throws Exception;

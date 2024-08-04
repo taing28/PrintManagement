@@ -42,6 +42,15 @@ public class UserController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/delivers")
+    public ResponseEntity<?> getDelivery() {
+        try {
+            return ResponseEntity.ok(_userService.getAllDeliver());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
     //POST METHOD
 
     //PUT METHOD
