@@ -48,7 +48,7 @@ export const Project = memo(() => {
                 console.log('Users', response.data);
                 setUserList(response.data);
             } catch (err) {
-                message.error(err.response?.data || 'Error fetching users');
+                // message.error(err.response?.data || 'Error fetching users');
             }
         };
 
@@ -58,7 +58,7 @@ export const Project = memo(() => {
                 console.log('Customers', response.data);
                 setCustomerList(response.data);
             } catch (err) {
-                message.error(err.response?.data || 'Error fetching customers');
+                // message.error(err.response?.data || 'Error fetching customers');
             }
         };
 

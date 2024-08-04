@@ -1,5 +1,5 @@
 import { memo, useCallback, useContext, useEffect, useState } from "react";
-import { Col, Container, Form, InputGroup, Row, Table } from "react-bootstrap";
+import { Col, Container, Form, Row, Table } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { ProjectContext } from "../config/ProjectContext";
 import { useUser } from "../config/UserContext";
@@ -10,8 +10,10 @@ export const ProjectPrint = memo(() => {
     const { user } = useUser();
     const { projectId } = useParams();
     const { project, loading } = useContext(ProjectContext);
-    //Fetching ResourceDetail
     const [resourceDetails, setResourceDetails] = useState([]);
+    const [bill, setBill] = useState(null)
+
+    //Fetching ResourceDetail
 
     const fetchResourceDtail = useCallback(async () => {
         try {
@@ -27,6 +29,21 @@ export const ProjectPrint = memo(() => {
         fetchResourceDtail();
     }, [fetchResourceDtail]);
 
+    //Fetching Bill
+    useEffect(() => {
+        const fetchBill = async () => {
+            try {
+                const response = await axiosInstance.get(`/bills/${projectId}`);
+                console.log('Bill', response.data);
+                setBill(response.data);
+            } catch (err) {
+                message.error(err.response?.data || 'Error fetching bill');
+            }
+        }
+
+        fetchBill();
+    }, [])
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -38,7 +55,7 @@ export const ProjectPrint = memo(() => {
                 <Row className="content">
                     <Col lg={8} sm={12}>
                         <Row>
-                            <div style={{ maxHeight: '450px', overflowY: 'scroll' }}>
+                            <div style={{ maxHeight: '450px', overflowY: 'scroll', }}>
                                 <Table striped hover variant="dark">
                                     <thead>
                                         <tr>
@@ -64,8 +81,14 @@ export const ProjectPrint = memo(() => {
                                                     </td>
                                                     <td>{detail.propertyDetailName}</td>
                                                     <td>
-                                                        <Form.Group controlId="quantity">
-                                                            <Form.Control type="text" placeholder="Quantity" required />
+                                                        <Form.Group controlId={`quantity-${detail.id}`}>
+                                                            <Form.Control
+                                                                type="text"
+                                                                placeholder="Quantity"
+                                                                required
+                                                                defaultValue={0}
+                                                                disabled={bill && bill.totalMoney > 0}
+                                                            />
                                                         </Form.Group>
                                                     </td>
                                                 </tr>
@@ -74,6 +97,7 @@ export const ProjectPrint = memo(() => {
                                     </tbody>
                                 </Table>
                             </div>
+                            <button className="btn btn-warning w-100 shadow fw-bolder mt-2" hidden={user.team.name !== 'Prints'} disabled={bill && bill.totalMoney > 0} >Confirm resource</button>
                         </Row>
                     </Col>
                     <Col lg={4} sm={12}>
@@ -85,9 +109,10 @@ export const ProjectPrint = memo(() => {
                             <ul className="rounded p-3" style={{ listStyle: 'none', backgroundColor: '#3A4156' }}>
                                 <li>Project: {project.projectName}</li>
                                 <li>Status: {project.projectStatus}</li>
+                                <li>Total money: {bill ? bill.totalMoney : 0}</li>
                             </ul>
                             <div className="text-center p-2">
-                                <button className="btn btn-warning w-100 shadow fw-bolder" hidden={user.team.name !== 'Prints'}>Confirm resource</button>
+                                <button className="btn btn-danger w-100 shadow fw-bolder" hidden={user.team.name !== 'Prints'} disabled={bill}>Make bill</button>
                             </div>
                         </div>
                     </Col>
@@ -101,7 +126,7 @@ export const ProjectPrint = memo(() => {
                         </Link>
                     </Col>
                     <Col style={{ textAlign: 'end' }}>
-                        <Link to={`/projects/${projectId}/bill`}>
+                        <Link to={`/projects/${projectId}/bill`} hidden={!bill}>
                             <button className="btn btn-primary">Bill</button>
                         </Link>
                     </Col>
