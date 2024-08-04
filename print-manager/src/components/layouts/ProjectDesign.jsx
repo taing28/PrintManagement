@@ -78,19 +78,16 @@ export const ProjectDesign = memo(() => {
                 designList: designs,
                 designStatus: values.designStatus,
             }
-            const response = await axiosInstance.put('http://localhost:8080/designs/approve-list', req);
+            const response = await axiosInstance.put('/designs/approve-list', req);
 
             // Kiểm tra trạng thái thành công từ server
             if (response.status === 200) {
                 // Chuyển hướng đến trang khi thành công
                 navigate(`/projects/${projectId}/prints`);
-            } else {
-                // Xử lý khi có lỗi từ server, ví dụ hiển thị thông báo lỗi
-                message.error('Set approve failed. Please try again.');
             }
         } catch (error) {
-            console.error('Error:', error); // Handle error
-            message.error(error.response);
+            console.error('Error:', error.response.data); // Handle error
+            message.error(error.response.data);
         } finally {
             setLoading(false); // Kết thúc trạng thái loading sau khi hoàn thành yêu cầu
         }
@@ -211,7 +208,7 @@ export const ProjectDesign = memo(() => {
                         </Link>
                     </Col>
                     <Col style={{ textAlign: 'end' }}>
-                        <Link to={`/projects/${projectId}/prints`} hidden={!isApproved}>
+                        <Link to={`/projects/${projectId}/prints`} hidden={!isApproved || designs.length < 1}>
                             <button
                                 className="btn btn-primary"
                                 hidden={user.team.name !== 'Prints' && (!user.authorities?.some((value) => {

@@ -1,10 +1,10 @@
 import { memo, useCallback, useContext, useEffect, useState } from "react";
-import { Col, Container, Form, Row, Table } from "react-bootstrap";
+import { Col, Container, Row, Table } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import { ProjectContext } from "../config/ProjectContext";
 import { useUser } from "../config/UserContext";
 import axiosInstance from "../config/AxiosConfig";
-import { message } from "antd";
+import { Input, message, Form } from "antd";
 
 export const ProjectPrint = memo(() => {
     const { user } = useUser();
@@ -44,6 +44,28 @@ export const ProjectPrint = memo(() => {
         fetchBill();
     }, [])
 
+    const handleMakeBill = async () => {
+        const billData = {
+            id: 0,
+            billName: project.projectName,
+            billStatus: 'waiting',
+            totalMoney: 0,
+            projectId: projectId,
+            customerId: project.customer.id,
+            employeeId: project.employee.id,
+        }
+
+        try {
+            await axiosInstance.post(`/bills`, billData);
+            console.log('Data', billData);
+            fetchResourceDtail();
+        } catch (err) {
+            console.log(err.response?.data);
+
+            message.error(err.response?.data || "Error making bill")
+        }
+    }
+
     if (loading) {
         return <div>Loading...</div>;
     }
@@ -81,15 +103,9 @@ export const ProjectPrint = memo(() => {
                                                     </td>
                                                     <td>{detail.propertyDetailName}</td>
                                                     <td>
-                                                        <Form.Group controlId={`quantity-${detail.id}`}>
-                                                            <Form.Control
-                                                                type="text"
-                                                                placeholder="Quantity"
-                                                                required
-                                                                defaultValue={0}
-                                                                disabled={bill && bill.totalMoney > 0}
-                                                            />
-                                                        </Form.Group>
+                                                        <Form.Item name="quantity" rules={[{ required: true, message: 'Please enter quantity' }]} initialValue={0}>
+                                                            <Input defaultValue={0} disabled={bill && bill.totalMoney > 0}/>
+                                                        </Form.Item>
                                                     </td>
                                                 </tr>
                                             )
@@ -97,7 +113,7 @@ export const ProjectPrint = memo(() => {
                                     </tbody>
                                 </Table>
                             </div>
-                            <button className="btn btn-warning w-100 shadow fw-bolder mt-2" hidden={user.team.name !== 'Prints'} disabled={bill && bill.totalMoney > 0} >Confirm resource</button>
+                            <button className="btn btn-warning w-100 shadow fw-bolder mt-2" hidden={user && user.team.name !== 'Prints'} disabled={bill && bill.totalMoney > 0} >Confirm resource</button>
                         </Row>
                     </Col>
                     <Col lg={4} sm={12}>
@@ -112,7 +128,7 @@ export const ProjectPrint = memo(() => {
                                 <li>Total money: {bill ? bill.totalMoney : 0}</li>
                             </ul>
                             <div className="text-center p-2">
-                                <button className="btn btn-danger w-100 shadow fw-bolder" hidden={user.team.name !== 'Prints'} disabled={bill}>Make bill</button>
+                                <button className="btn btn-danger w-100 shadow fw-bolder" hidden={user.team.name !== 'Prints'} disabled={bill} onClick={handleMakeBill}>Make bill</button>
                             </div>
                         </div>
                     </Col>
@@ -126,7 +142,7 @@ export const ProjectPrint = memo(() => {
                         </Link>
                     </Col>
                     <Col style={{ textAlign: 'end' }}>
-                        <Link to={`/projects/${projectId}/bill`} hidden={!bill}>
+                        <Link to={`/projects/${projectId}/bill/`} hidden={!bill || bill.totalMoney === 0}>
                             <button className="btn btn-primary">Bill</button>
                         </Link>
                     </Col>

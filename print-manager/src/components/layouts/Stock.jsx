@@ -67,7 +67,7 @@ export const Stock = memo(() => {
         console.log(values);
 
         try {
-            // const response = await axiosInstance.post(`/resource-property`, values);
+            await axiosInstance.post(`/resource-property`, values);
             message.success("Added");
         } catch (err) {
             message.error(err.response?.data || 'Error add resource property');
@@ -92,7 +92,7 @@ export const Stock = memo(() => {
     const handleImportQuantity = async (values) => {
 
         try {
-            const response = await axiosInstance.put(`/property-detail/import-quantity`, null, {
+            await axiosInstance.put(`/property-detail/import-quantity`, null, {
                 params: {
                     propertyDetailId: values.propertyDetailId,
                     quantity: values.quantity,
@@ -134,7 +134,7 @@ export const Stock = memo(() => {
         }
 
         try {
-            const response = await axiosInstance.post('/resources', data, {
+            await axiosInstance.post('/resources', data, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
