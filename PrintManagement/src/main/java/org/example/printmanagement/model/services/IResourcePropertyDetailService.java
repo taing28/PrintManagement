@@ -12,5 +12,9 @@ public interface IResourcePropertyDetailService {
 
     void updateQuantity(int propertyDetailId, int quantity) throws Exception;
 
+    void importProduct(int propertyDetailId, int quantity) throws Exception;
+
+    void exportProduct(int propertyDetailId, int quantity) throws Exception;
+
     void delete(int id) throws Exception;
 }

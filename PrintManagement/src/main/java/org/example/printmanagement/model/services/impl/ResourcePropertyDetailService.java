@@ -46,6 +46,35 @@ public class ResourcePropertyDetailService implements IResourcePropertyDetailSer
     }
 
     @Override
+    public void importProduct(int propertyDetailId, int quantity) throws Exception {
+        if (_detailRepo.existsById(propertyDetailId)) {
+            throw new Exception("Property Detail Not Found");
+        }
+        if (quantity < 0) {
+            throw new Exception("Quantity must be positive number");
+        }
+        ResourcePropertyDetail propertyDetail = _detailRepo.findById(propertyDetailId).get();
+        propertyDetail.setQuantity(propertyDetail.getQuantity() + quantity);
+        _detailRepo.save(propertyDetail);
+    }
+
+    @Override
+    public void exportProduct(int propertyDetailId, int quantity) throws Exception {
+        if (_detailRepo.existsById(propertyDetailId)) {
+            throw new Exception("Property Detail Not Found");
+        }
+        if (quantity < 0) {
+            throw new Exception("Quantity must be positive number");
+        }
+        ResourcePropertyDetail propertyDetail = _detailRepo.findById(propertyDetailId).get();
+        if (quantity > propertyDetail.getQuantity()) {
+            throw new Exception("Quantity must be less than stock");
+        }
+        propertyDetail.setQuantity(propertyDetail.getQuantity() - quantity);
+        _detailRepo.save(propertyDetail);
+    }
+
+    @Override
     public void delete(int id) throws Exception{
         if (_detailRepo.existsById(id)) {
             throw new Exception("Property Detail Not Found");

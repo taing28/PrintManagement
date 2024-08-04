@@ -46,18 +46,28 @@ public class ResourcePropertyDetailController {
     }
 
     //PUT METHOD
-    @PutMapping("/update-quantity")
-    public ResponseEntity<?> updateQuantity(@RequestParam int propertyDetailId, int quantity) {
+    @PutMapping("/import-quantity")
+    public ResponseEntity<?> importQuantity(@RequestParam int propertyDetailId, int quantity) {
         try {
-            _propertyDetailService.updateQuantity(propertyDetailId, quantity);
-            return ResponseEntity.ok("Updated");
+            _propertyDetailService.importProduct(propertyDetailId, quantity);
+            return ResponseEntity.ok("Imported");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/export-quantity")
+    public ResponseEntity<?> exportQuantity(@RequestParam int propertyDetailId, int quantity) {
+        try {
+            _propertyDetailService.exportProduct(propertyDetailId, quantity);
+            return ResponseEntity.ok("Exported");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
     //DELETE METHOD
-    @PutMapping("/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable int id) {
         try {
             _propertyDetailService.delete(id);
