@@ -29,6 +29,15 @@ public class ResourcePropertyDetailController {
         return ResponseEntity.ok(_propertyDetailService.list());
     }
 
+    @GetMapping("/{resourceId}")
+    public ResponseEntity<?> listByResource(@PathVariable int resourceId) {
+        try {
+            return ResponseEntity.ok(_propertyDetailService.listByResource(resourceId));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     //POST METHOD
     @PostMapping()
     public ResponseEntity<?> create(@RequestParam MultipartFile multipartFile, int propertyDetailId, BigDecimal price, String propertyDetailName, int propertyId, int quantity) throws IOException {

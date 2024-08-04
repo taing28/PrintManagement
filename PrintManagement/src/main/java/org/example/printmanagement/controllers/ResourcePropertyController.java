@@ -15,9 +15,18 @@ public class ResourcePropertyController {
 
     //GET METHOD
     @GetMapping()
-    public ResponseEntity<?> list(){
+    public ResponseEntity<?> list() {
         try {
             return ResponseEntity.ok(_propertyService.list());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/{resourceProperty}")
+    public ResponseEntity<?> listByResource(@PathVariable int resourceProperty) {
+        try {
+            return ResponseEntity.ok(_propertyService.listByResource(resourceProperty));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

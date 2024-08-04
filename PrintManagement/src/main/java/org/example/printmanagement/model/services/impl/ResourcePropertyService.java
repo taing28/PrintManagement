@@ -1,6 +1,7 @@
 package org.example.printmanagement.model.services.impl;
 
 import org.example.printmanagement.model.dtos.request.ResourcePropertyRequest;
+import org.example.printmanagement.model.dtos.response.ResourcePropertyResponse;
 import org.example.printmanagement.model.entities.ResourceProperty;
 import org.example.printmanagement.model.repositories.ResourcePropertyRepo;
 import org.example.printmanagement.model.services.IResourcePropertyService;
@@ -23,6 +24,12 @@ public class ResourcePropertyService implements IResourcePropertyService {
             throw new Exception("There is no resource prop");
         }
         return list;
+    }
+
+    @Override
+    public List<ResourcePropertyResponse> listByResource(int resourceId) throws Exception {
+        List<ResourceProperty> resourceProperties = _resourcePropertyRepo.findAllByResourceId(resourceId);
+        return ResourcePropertyResponse.toDTO(resourceProperties);
     }
 
     @Override

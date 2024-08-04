@@ -8,6 +8,8 @@ import java.util.List;
 public interface IResourcePropertyDetailService {
     List<ResourcePropertyDetail> list();
 
+    List<ResourcePropertyDetail> listByResource(int resourceId) throws Exception;
+
     void create(ResourcePropertyDetailRequest req) throws Exception;
 
     void updateQuantity(int propertyDetailId, int quantity) throws Exception;
