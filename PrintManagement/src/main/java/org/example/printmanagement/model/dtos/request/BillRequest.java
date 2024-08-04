@@ -1,5 +1,7 @@
 package org.example.printmanagement.model.dtos.request;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.example.printmanagement.model.entities.Bill;
 import org.example.printmanagement.model.entities.BillStatus;
 import org.example.printmanagement.model.entities.Customer;
@@ -7,7 +9,8 @@ import org.example.printmanagement.model.entities.User;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-
+@Data
+@NoArgsConstructor
 public class BillRequest {
     private int id;
     private String billName;
@@ -15,7 +18,6 @@ public class BillRequest {
     private BigDecimal totalMoney;
     private int projectId;
     private int customerId;
-    private LocalDateTime updateTime;
     private int employeeId;
 
     public Bill toEntity() {
