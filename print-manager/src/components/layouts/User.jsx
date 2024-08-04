@@ -146,7 +146,7 @@ export const User = memo(() => {
                                 <td>{user.team.name}</td>
                                 <td>
                                     <div className="d-flex justify-content-evenly" hidden={user.username === 'admin'}>
-                                        <button className="btn btn-warning ">Role</button>
+                                        <button className="btn btn-warning " disabled>Role</button>
                                         <button className="btn btn-success" onClick={() => showModalTeam(user)}>Team</button>
                                         <Popconfirm
                                             title="Disable the user"
