@@ -12,9 +12,7 @@ export const ProjectBill = memo(() => {
     const { projectId } = useParams();
     const { project, loading } = useContext(ProjectContext);
     const [bill, setBill] = useState(null);
-    const [delivers, setDelivers] = useState([])
-
-    console.log('Prj',project);
+    const [delivers, setDelivers] = useState([]);
     
 
     useEffect(() => {

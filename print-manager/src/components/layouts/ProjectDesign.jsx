@@ -1,5 +1,5 @@
 import { memo, useCallback, useContext, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axiosInstance from "../config/AxiosConfig";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Form, message, Popconfirm, Select, Upload } from "antd";
@@ -67,7 +67,6 @@ export const ProjectDesign = memo(() => {
 
     //Set approve
     const [loading, setLoading] = useState(false);//Set loading to avoid send many request at the same time
-    const navigate = useNavigate();
 
     const onFinish = async (values) => {
         try {
@@ -82,8 +81,8 @@ export const ProjectDesign = memo(() => {
 
             // Kiểm tra trạng thái thành công từ server
             if (response.status === 200) {
-                // Chuyển hướng đến trang khi thành công
-                navigate(`/projects/${projectId}/prints`);
+                message.success('Set!')
+                fetchDesign();
             }
         } catch (error) {
             console.error('Error:', error.response.data); // Handle error
@@ -138,7 +137,7 @@ export const ProjectDesign = memo(() => {
                                                             okText="Yes"
                                                             cancelText="No"
                                                         >
-                                                            <button className="btn btn-danger" disabled={isApproved}>Delete</button>
+                                                            <button className="btn btn-danger" disabled={isApproved && design.designStatus === 'APPROVED'}>Delete</button>
                                                         </Popconfirm>
                                                     </Card.Text>
                                                 </Card.Body>

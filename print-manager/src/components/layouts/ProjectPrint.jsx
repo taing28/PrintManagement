@@ -12,9 +12,9 @@ export const ProjectPrint = memo(() => {
     const { project, loading } = useContext(ProjectContext);
     const [resourceDetails, setResourceDetails] = useState([]);
     const [bill, setBill] = useState(null)
+    const [quantities, setQuantities] = useState([]);
 
     //Fetching ResourceDetail
-
     const fetchResourceDtail = useCallback(async () => {
         try {
             const response = await axiosInstance.get('/property-detail');
@@ -36,6 +36,7 @@ export const ProjectPrint = memo(() => {
                 const response = await axiosInstance.get(`/bills/${projectId}`);
                 console.log('Bill', response.data);
                 setBill(response.data);
+                message.success('Make it')
             } catch (err) {
                 message.error(err.response?.data || 'Error fetching bill');
             }
@@ -62,9 +63,37 @@ export const ProjectPrint = memo(() => {
         } catch (err) {
             console.log(err.response?.data);
 
-            message.error(err.response?.data || "Error making bill")
+            message.error(err.response?.data || "Error making bill");
         }
     }
+
+    //Handle print confirm
+    const handlePrint = async () => {
+        const inputResource = document.getElementsByClassName('input-quantity');
+        const inputArrays = [...inputResource];
+
+        const newQuantities = inputArrays.map((input) => ({
+            id: input.id,
+            quantity: input.value,
+        }));
+        setQuantities(newQuantities);
+
+        try {
+            const req = {
+                billId: bill.id,
+                designId: project.designList[0].id,
+                requestList: newQuantities,
+            }
+
+            await axiosInstance.post(`/resource-for-print`, req);
+            message.success('Confirmed');
+        } catch (err) {
+            console.log(err.response?.data);
+            message.error(err.response?.data || "Error confirm resource");
+        }
+    }
+
+
 
     if (loading) {
         return <div>Loading...</div>;
@@ -103,8 +132,8 @@ export const ProjectPrint = memo(() => {
                                                     </td>
                                                     <td>{detail.propertyDetailName}</td>
                                                     <td>
-                                                        <Form.Item name="quantity" rules={[{ required: true, message: 'Please enter quantity' }]} initialValue={0}>
-                                                            <Input defaultValue={0} disabled={bill && bill.totalMoney > 0}/>
+                                                        <Form.Item name={`quantity-${detail.id}`} rules={[{ required: true, message: 'Please enter quantity' }]} initialValue={0}>
+                                                            <Input defaultValue={0} disabled={bill && bill.totalMoney > 0} id={detail.id} className="input-quantity" />
                                                         </Form.Item>
                                                     </td>
                                                 </tr>
@@ -113,7 +142,7 @@ export const ProjectPrint = memo(() => {
                                     </tbody>
                                 </Table>
                             </div>
-                            <button className="btn btn-warning w-100 shadow fw-bolder mt-2" hidden={user && user.team.name !== 'Prints'} disabled={bill && bill.totalMoney > 0} >Confirm resource</button>
+                            <button className="btn btn-warning w-100 shadow fw-bolder mt-2" hidden={(user && user.team.name !== 'Prints') || !bill} disabled={bill && bill.totalMoney > 0} onClick={handlePrint}>Confirm resource</button>
                         </Row>
                     </Col>
                     <Col lg={4} sm={12}>
