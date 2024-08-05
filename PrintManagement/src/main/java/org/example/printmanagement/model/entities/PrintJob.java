@@ -18,6 +18,8 @@ public class PrintJob {
     private int id;
     @Column(insertable = false, updatable = false)
     private int designId;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
     private PrintJobStatus printJobStatus;
 
     public PrintJob(int id) {
