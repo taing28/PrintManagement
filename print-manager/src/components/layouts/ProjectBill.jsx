@@ -14,6 +14,9 @@ export const ProjectBill = memo(() => {
     const [bill, setBill] = useState(null);
     const [delivers, setDelivers] = useState([])
 
+    console.log('Prj',project);
+    
+
     useEffect(() => {
         const fetchBill = async () => {
             try {
@@ -56,7 +59,7 @@ export const ProjectBill = memo(() => {
                 shippingMethodId: values.shippingMethodId,
             }
             const response = await axiosInstance.post('/delivery', deliveryData);
-            console.log(response.data);
+            console.log('Created');
             
         } catch (err) {
             message.error(err.response?.data || 'Error set deliver')
@@ -84,7 +87,7 @@ export const ProjectBill = memo(() => {
                                         <td>{project.customer.fullName}</td>
                                         <td>{project.customer.address}</td>
                                         <td>
-                                            {project.deliveryList.size < 1 ? (<Form
+                                            {project.deliveryList.length < 1 ? (<Form
                                             onFinish={handleDeliver}
                                             >
                                                 <Form.Item name="deliverId" rules={[{ required: true, message: 'Please choose deliver' }]}>
@@ -102,7 +105,7 @@ export const ProjectBill = memo(() => {
                                                     </Select>
                                                 </Form.Item>
                                                 <button type="submit" className="btn btn-info">Set deliver</button>
-                                            </Form>): ''}
+                                            </Form>): 'Selected'}
                                         </td>
                                     </tr>
                                 </tbody>
