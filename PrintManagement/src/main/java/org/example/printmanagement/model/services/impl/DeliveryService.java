@@ -69,6 +69,7 @@ public class DeliveryService implements IDeliveryService {
             default:
                 break;
         }
+        _deliveryRepo.save(delivery);
     }
 
     @Override

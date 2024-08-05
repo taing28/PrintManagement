@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -47,9 +46,11 @@ public class ResourceForPrintJobService implements IResourceForPrintJobService {
             //Handle quantity
             ResourcePropertyDetail propertyDetail = _propertyDetailRepo.findById(resourceRequest.getId()).get();
             if (propertyDetail.getQuantity() < resourceRequest.getQuantity()) {
-                throw new Exception("Quantity must less than stock");
+                throw new Exception(propertyDetail.getPropertyDetailName()+" is out of stock");
             }
-            propertyDetail.setQuantity(propertyDetail.getQuantity() - resourceRequest.getQuantity());
+            if(propertyDetail.getResourceProperty().getResource().getResourceType().toString().equals("NONRENEWABLE")) {
+                propertyDetail.setQuantity(propertyDetail.getQuantity() - resourceRequest.getQuantity());
+            }
             _propertyDetailRepo.save(propertyDetail);
 
             //Create resource for print
