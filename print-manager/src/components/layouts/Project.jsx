@@ -184,7 +184,7 @@ export const Project = memo(() => {
                     <Form.Item name="customerId" label="Customer" rules={[{ required: true, message: 'Please select customer' }]}>
                         <Select>
                             {customerList.map((customerValue, index) => {
-                                return <Option value={customerValue.id} key={index}>{customerValue.name}</Option>
+                                return <Option value={customerValue.id} key={index}>{customerValue.fullName}</Option>
                             })}
                         </Select>
                     </Form.Item>
