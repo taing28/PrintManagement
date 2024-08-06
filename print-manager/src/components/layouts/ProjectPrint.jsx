@@ -36,7 +36,6 @@ export const ProjectPrint = memo(() => {
                 const response = await axiosInstance.get(`/bills/${projectId}`);
                 console.log('Bill', response.data);
                 setBill(response.data);
-                message.success('Make it')
             } catch (err) {
                 message.error(err.response?.data || 'Error fetching bill');
             }
@@ -60,6 +59,7 @@ export const ProjectPrint = memo(() => {
             await axiosInstance.post(`/bills`, billData);
             console.log('Data', billData);
             fetchResourceDtail();
+            message.success('Make it')
         } catch (err) {
             console.log(err.response?.data);
 
