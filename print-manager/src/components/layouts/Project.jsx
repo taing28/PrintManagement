@@ -2,12 +2,17 @@ import { memo, useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../config/UserContext";
 import axiosInstance from "../config/AxiosConfig";
-import { Card, Col, message, Popconfirm, Row, Spin } from "antd";
+import { Button, Card, Col, DatePicker, Form, Input, message, Modal, Popconfirm, Row, Select, Spin } from "antd";
 import Search from "antd/es/transfer/search";
 
 export const Project = memo(() => {
+    const { Option } = Select;
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [submiting, setSubmitting] = useState(false);
+    const [userList, setUserList] = useState([]);
+    const [customerList, setCustomerList] = useState([])
 
     // Fetch project
     const fetchProjects = useCallback(async () => {
@@ -35,6 +40,32 @@ export const Project = memo(() => {
         navigate('/auth/login');
     }
 
+    //Fetch Users, Customers
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await axiosInstance.get('/users');
+                console.log('Users', response.data);
+                setUserList(response.data);
+            } catch (err) {
+                // message.error(err.response?.data || 'Error fetching users');
+            }
+        };
+
+        const fetchCustomers = async () => {
+            try {
+                const response = await axiosInstance.get('/customers');
+                console.log('Customers', response.data);
+                setCustomerList(response.data);
+            } catch (err) {
+                // message.error(err.response?.data || 'Error fetching customers');
+            }
+        };
+
+        fetchUsers();
+        fetchCustomers();
+    }, []);
+
     //Load page to wait data to fetch
     if (loading) {
         return (
@@ -60,6 +91,29 @@ export const Project = memo(() => {
         return `${year}-${month}-${day}`;
     }
 
+    //create Project
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleCreate = async (values) => {
+        setSubmitting(true);
+        try {
+            const response = await axiosInstance.post('/projects', values);
+            fetchProjects();
+            setIsModalVisible(false);
+        } catch (error) {
+            console.error('Error creating project:', error);
+            message.error(error.response.data)
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
     return (
         <div>
             <Row className="mt-2 justify-content-between">
@@ -73,7 +127,7 @@ export const Project = memo(() => {
                         }}
                     />
                 </div>
-                <button className="btn btn-success">Create</button>
+                <button className="btn btn-success" onClick={showModal} hidden={!(user.team.name === 'Sales')}>Create</button>
             </Row>
             <Row className="pt-4" gutter={16}>
                 {
@@ -107,6 +161,38 @@ export const Project = memo(() => {
                     })
                 }
             </Row>
+
+            {/* Modal */}
+            <Modal title="Create Project" open={isModalVisible} onCancel={handleCancel} footer={null}>
+                <Form onFinish={handleCreate}>
+                    <Form.Item name="projectName" label="Project Name" rules={[{ required: true, message: 'Please enter project name' }]}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item name="requestDescriptionFromCustomer" label="Request Description" rules={[{ required: true, message: 'Please enter request description' }]}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item name="expectedEndDate" label="Expected End Date" rules={[{ required: true, message: 'Please select expected end date' }]}>
+                        <DatePicker />
+                    </Form.Item>
+                    <Form.Item name="employeeId" label="Employee" rules={[{ required: true, message: 'Please select employee' }]}>
+                        <Select>
+                            {userList.map((userValue, index) => {
+                                return <Option value={userValue.id} key={index}>{userValue.name}</Option>
+                            })}
+                        </Select>
+                    </Form.Item>
+                    <Form.Item name="customerId" label="Customer" rules={[{ required: true, message: 'Please select customer' }]}>
+                        <Select>
+                            {customerList.map((customerValue, index) => {
+                                return <Option value={customerValue.id} key={index}>{customerValue.fullName}</Option>
+                            })}
+                        </Select>
+                    </Form.Item>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" loading={submiting}>Create</Button>
+                    </Form.Item>
+                </Form>
+            </Modal>
         </div>
     )
 })

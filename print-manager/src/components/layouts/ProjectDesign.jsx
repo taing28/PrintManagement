@@ -1,8 +1,8 @@
 import { memo, useCallback, useContext, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axiosInstance from "../config/AxiosConfig";
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Form, message, Select, Upload } from "antd";
+import { Button, Form, message, Popconfirm, Select, Upload } from "antd";
 import { useUser } from "../config/UserContext";
 import { Card, Col, Container, Row } from "react-bootstrap";
 import { ProjectContext } from "../config/ProjectContext";
@@ -67,7 +67,6 @@ export const ProjectDesign = memo(() => {
 
     //Set approve
     const [loading, setLoading] = useState(false);//Set loading to avoid send many request at the same time
-    const navigate = useNavigate();
 
     const onFinish = async (values) => {
         try {
@@ -78,23 +77,41 @@ export const ProjectDesign = memo(() => {
                 designList: designs,
                 designStatus: values.designStatus,
             }
-            const response = await axiosInstance.put('http://localhost:8080/designs/approve-list', req);
+            const response = await axiosInstance.put('/designs/approve-list', req);
 
             // Kiểm tra trạng thái thành công từ server
             if (response.status === 200) {
-                // Chuyển hướng đến trang khi thành công
-                navigate(`/projects/${projectId}/prints`);
-            } else {
-                // Xử lý khi có lỗi từ server, ví dụ hiển thị thông báo lỗi
-                message.error('Set approve failed. Please try again.');
+                message.success('Set!')
+                fetchDesign();
             }
         } catch (error) {
-            console.error('Error:', error); // Handle error
-            message.error(error.response);
+            console.error('Error:', error.response.data); // Handle error
+            message.error(error.response.data);
         } finally {
             setLoading(false); // Kết thúc trạng thái loading sau khi hoàn thành yêu cầu
         }
     };
+
+    //Handle Delete
+    const confirm = async (designId) => {
+        try {
+            await axiosInstance.delete(`/designs/${designId}`);
+            message.success('Delete successfully');
+            // Gọi lại hàm fetchTeams để cập nhật danh sách các đội
+            fetchDesign();
+        } catch (error) {
+            message.error('Failed to delete design');
+        }
+    };
+
+    const cancel = (e) => {
+        message.error('Clicked on No');
+    };
+
+    //Loading project
+    if (!project) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div>
@@ -111,9 +128,17 @@ export const ProjectDesign = memo(() => {
                                                 <Card.Img variant="top" src={design.filePath} />
                                                 <Card.Body>
                                                     <Card.Title>{design.designStatus}</Card.Title>
-                                                    <Card.Text>
-                                                        Some quick example text to build on the card title and make up the
-                                                        bulk of the card's content.
+                                                    <Card.Text hidden={!(user.id === design.designerId)}>
+                                                        <Popconfirm
+                                                            title="Delete the design"
+                                                            description="Are you sure to delete this design?"
+                                                            onConfirm={() => confirm(design.id)}
+                                                            onCancel={cancel}
+                                                            okText="Yes"
+                                                            cancelText="No"
+                                                        >
+                                                            <button className="btn btn-danger" disabled={isApproved && design.designStatus === 'APPROVED'}>Delete</button>
+                                                        </Popconfirm>
                                                     </Card.Text>
                                                 </Card.Body>
                                             </Card>
@@ -182,7 +207,7 @@ export const ProjectDesign = memo(() => {
                         </Link>
                     </Col>
                     <Col style={{ textAlign: 'end' }}>
-                        <Link to={`/projects/${projectId}/prints`} hidden={!isApproved}>
+                        <Link to={`/projects/${projectId}/prints`} hidden={!isApproved || designs.length < 1}>
                             <button
                                 className="btn btn-primary"
                                 hidden={user.team.name !== 'Prints' && (!user.authorities?.some((value) => {
