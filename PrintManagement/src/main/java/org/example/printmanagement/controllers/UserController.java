@@ -21,7 +21,7 @@ public class UserController {
      * @path /users
      * @return List < User> - list users
      */
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('LEADER')")
     @GetMapping()
     public ResponseEntity<?> getAll(){
         return ResponseEntity.ok(UserResponse.toListDTO(_userService.getAllUser()));
@@ -38,6 +38,15 @@ public class UserController {
     public ResponseEntity<?> getById(@PathVariable int id) {
         try {
             return ResponseEntity.ok(_userService.getUserById(id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/delivers")
+    public ResponseEntity<?> getDelivery() {
+        try {
+            return ResponseEntity.ok(_userService.getAllDeliver());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

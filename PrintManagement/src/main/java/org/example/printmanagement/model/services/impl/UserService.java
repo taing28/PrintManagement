@@ -15,7 +15,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Transactional(rollbackFor = Exception.class)
 @Service
@@ -43,6 +45,17 @@ public class UserService implements IUserService {
             throw new Exception("User are not available");
         }
         return user;
+    }
+
+    @Override
+    public Set<User> getAllDeliver() throws Exception {
+        Role role = _roleRepo.findRoleByRoleCodeEquals("DELIVER");
+        Set<User> deliverSet = new HashSet<>();
+        List<Permission> deliverPermissList = _permissionRepo.findAllByRoleId(role.getId());
+        for (Permission permission : deliverPermissList) {
+            deliverSet.add(_userRepo.findById(permission.getUserId()).get());
+        }
+        return deliverSet;
     }
 
     @Override

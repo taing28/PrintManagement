@@ -1,5 +1,6 @@
 package org.example.printmanagement.model.services;
 
+import org.example.printmanagement.model.dtos.request.ConfirmResourceRequest;
 import org.example.printmanagement.model.dtos.request.ResourceForPrintRequest;
 import org.example.printmanagement.model.entities.ResourceForPrintJob;
 
@@ -9,6 +10,8 @@ public interface IResourceForPrintJobService {
     List<ResourceForPrintJob> list();
 
     void create(ResourceForPrintRequest req) throws Exception;
+
+    void confirmResource(int designId, List<ConfirmResourceRequest> resourceRequestList) throws Exception;
 
     void update(ResourceForPrintRequest req) throws Exception;
 

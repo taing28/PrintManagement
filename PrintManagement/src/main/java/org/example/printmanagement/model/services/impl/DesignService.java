@@ -3,6 +3,7 @@ package org.example.printmanagement.model.services.impl;
 import org.example.printmanagement.model.entities.*;
 import org.example.printmanagement.model.repositories.DesignRepo;
 import org.example.printmanagement.model.repositories.NotificationRepo;
+import org.example.printmanagement.model.repositories.PrintJobRepo;
 import org.example.printmanagement.model.repositories.ProjectRepo;
 import org.example.printmanagement.model.services.IDesignService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class DesignService implements IDesignService {
     private NotificationRepo _notificationRepo;
     @Autowired
     private ProjectRepo _projectRepo;
+    @Autowired
+    private PrintJobRepo _printJobRepo;
 
     @Override
     public List<Design> list() {
@@ -107,10 +110,17 @@ public class DesignService implements IDesignService {
         listDesign.forEach(design -> {
             try {
                 confirmDesign(projectId, approverId, design.getId(), designStatus);
+                //Create print job
+                PrintJob printJob = new PrintJob();
+                printJob.setDesignId(design.getId());
+                printJob.setDesign(new Design(design.getId()));
+                printJob.setPrintJobStatus(PrintJobStatus.PENDING);
+                _printJobRepo.save(printJob);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         });
+
     }
 
     @Override
